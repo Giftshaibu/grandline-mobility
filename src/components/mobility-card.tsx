@@ -1,0 +1,38 @@
+import type { Entry } from "../lib/contracts";
+export function MobilityCard({ entry }: { entry: Entry }) {
+  return (
+    <article className="entry-card">
+      {entry.images[0] && (
+        <img src={entry.images[0]} alt={entry.title} loading="lazy" />
+      )}
+      <div className="card-body">
+        <h3>
+          <a href={`/${entry.kind}/${encodeURIComponent(entry.slug)}`}>
+            {entry.title}
+          </a>
+        </h3>
+        <p>
+          {entry.location} · {entry.provider.name}
+        </p>
+        {entry.kind !== "logistics" && entry.price && (
+          <p>
+            MK{entry.price.amount.toLocaleString("en-MW")} / {entry.price.unit}
+          </p>
+        )}
+        {entry.kind === "hire" && entry.passengerCapacity && (
+          <p>{entry.passengerCapacity} passengers</p>
+        )}
+        {entry.kind === "commercial" && entry.cargoCapacityKg !== undefined && (
+          <p>{entry.cargoCapacityKg.toLocaleString()} kg carrying capacity</p>
+        )}
+        {entry.kind === "logistics" && <p>{entry.serviceAreas.join(" · ")}</p>}
+        <a
+          className="button secondary"
+          href={`/${entry.kind}/${encodeURIComponent(entry.slug)}`}
+        >
+          View details
+        </a>
+      </div>
+    </article>
+  );
+}

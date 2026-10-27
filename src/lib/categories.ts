@@ -1,0 +1,29 @@
+export const paths = {
+  hire: {
+    title: "Vehicle hire",
+    description: "Explore cars and SUVs for personal and business journeys.",
+    categories: [
+      ["car", "Cars"],
+      ["suv", "SUVs"],
+      ["van", "Vans"],
+    ],
+  },
+  commercial: {
+    title: "Commercial transport",
+    description: "Explore trucks, vans and buses for your transport needs.",
+    categories: [
+      ["truck", "Trucks"],
+      ["van", "Vans"],
+      ["bus", "Buses"],
+    ],
+  },
+  logistics: {
+    title: "Logistics",
+    description: "Explore transport providers for goods and vehicle movement.",
+    categories: [
+      ["goods", "Goods transport"],
+      ["vehicle-movement", "Vehicle movement"],
+      ["dealer-stock", "Dealer-stock movement"],
+    ],
+  },
+} as const;

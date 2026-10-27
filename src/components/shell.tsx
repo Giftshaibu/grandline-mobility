@@ -15,7 +15,12 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </a>
         <AccountControl />
       </header>
-      <nav className="product-nav wrap" aria-label="Main navigation"><Link to="/">Overview</Link></nav>
+      <nav className="product-nav wrap" aria-label="Main navigation">
+        <Link to="/">Overview</Link>
+        <Link to="/hire">Vehicle hire</Link>
+        <Link to="/commercial">Commercial</Link>
+        <Link to="/logistics">Logistics</Link>
+      </nav>
       <main id="main-content" tabIndex={-1}>
         {children}
       </main>
