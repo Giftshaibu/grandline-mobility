@@ -26,6 +26,7 @@ export type Kind = "hire" | "commercial" | "logistics";
 type Page = z.infer<typeof pageSchema>;
 type Entry = z.infer<typeof entrySchema>;
 export interface DirectoryGateway {
+  readonly supported: boolean;
   categories(
     signal?: AbortSignal,
   ): Promise<Result<z.infer<typeof categorySchema>[]>>;
@@ -48,6 +49,7 @@ export interface DirectoryGateway {
 }
 // Production deliberately has no HTTP gateway until the backend contracts exist.
 export const directory: DirectoryGateway = {
+  supported: false,
   categories: async () => ({ state: "unavailable" }),
   list: async () => ({ state: "unavailable" }),
   detail: async () => ({ state: "unavailable" }),
@@ -112,6 +114,7 @@ export function createHttpGateway(
   }
   const root = "/api/v1/mobility";
   return {
+    supported: true,
     categories: (signal) =>
       request(`${root}/categories`, z.array(categorySchema), signal),
     list: (search, kind, signal, cursor) => {

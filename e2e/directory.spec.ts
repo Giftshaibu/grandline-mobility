@@ -43,12 +43,38 @@ test("missing routes use the not-found boundary", async ({ page }) => {
     page.getByRole("heading", { name: "Page not found" }),
   ).toBeVisible();
 });
-test("homepage category navigation and keyboard access", async ({ page }) => {
+test("homepage category navigation and keyboard access", async ({
+  page,
+}, testInfo) => {
   await page.goto("/");
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+  await page.screenshot({
+    path: testInfo.outputPath("home.png"),
+    fullPage: true,
+  });
   await page.keyboard.press("Tab");
   await expect(
     page.getByRole("link", { name: "Skip to content" }),
   ).toBeFocused();
   await page.getByRole("link", { name: /Explore vehicle hire/ }).click();
   await expect(page).toHaveURL(/hire/);
+});
+
+test("known unavailable state renders without client JavaScript", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/hire/not-a-real-listing");
+  await expect(
+    page.getByText("Directory coming soon", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Enquiries unavailable" }),
+  ).toBeDisabled();
+  await context.close();
 });

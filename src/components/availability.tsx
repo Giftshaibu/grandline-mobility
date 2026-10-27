@@ -11,7 +11,7 @@ export function Availability({
   if (pending)
     return (
       <div className="availability" role="status" aria-live="polite">
-        <h2>Loading the directory�</h2>
+        <h2>Loading the directory...</h2>
         <p>Fetching the latest information.</p>
       </div>
     );
@@ -19,14 +19,14 @@ export function Availability({
     return (
       <div className="availability">
         <span className="status-tag">Directory coming soon</span>
-        <h2>We�re preparing this directory.</h2>
+        <h2>We're preparing this directory.</h2>
         <p>
-          Provider search and enquiries aren�t available yet. You can explore
+          Transport search and enquiries aren't available yet. You can explore
           the categories and set your search criteria.
         </p>
         <p className="muted">
-          No providers or availability are being shown until the directory is
-          connected.
+          No vehicles, providers or availability are being shown until the
+          directory is connected.
         </p>
       </div>
     );
@@ -41,7 +41,7 @@ export function Availability({
   if (result.state === "error")
     return (
       <div className="availability" role="alert">
-        <h2>The directory couldn�t load.</h2>
+        <h2>The directory couldn't load.</h2>
         <p>
           {result.reason === "network"
             ? "Check your connection and try again."

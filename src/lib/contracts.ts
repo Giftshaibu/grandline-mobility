@@ -3,13 +3,13 @@ const text = z.string().trim().min(1).max(300);
 const safeUrl = z
   .string()
   .url()
-  .refine(
-    (value) => {
-      try { return ["http:", "https:"].includes(new URL(value).protocol); }
-      catch { return false; }
-    },
-    "HTTP(S) URL required",
-  );
+  .refine((value) => {
+    try {
+      return ["http:", "https:"].includes(new URL(value).protocol);
+    } catch {
+      return false;
+    }
+  }, "HTTP(S) URL required");
 export const contactSchema = z.object({
   phone: text.optional(),
   whatsapp: z

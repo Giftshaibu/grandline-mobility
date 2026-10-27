@@ -5,6 +5,8 @@ import { Availability } from "./availability";
 import { Enquiry } from "./enquiry";
 export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
   const query = useQuery({
+    enabled: directory.supported,
+    ...(!directory.supported ? { initialData: { state: "unavailable" } as Awaited<ReturnType<typeof directory.detail>> } : {}),
     queryKey: ["mobility", kind, slug],
     queryFn: ({ signal }) => directory.detail(slug, kind, signal),
     retry: false,
@@ -96,6 +98,7 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
         </div>
       ) : (
         <>
+          <h1 className="directory-title">Transport details</h1>
           <Availability
             result={
               entry
