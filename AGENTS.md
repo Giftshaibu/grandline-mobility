@@ -1,0 +1,1 @@
+Preserve Auto Hub design tokens and TanStack file routing. Read docs/CURRENT_STATE.md and docs/implementation/GRANDLINE_FRONTENDS_PROGRESS.md before edits. Never manually edit routeTree.gen.ts. No mock production data or hypothetical endpoint calls. Keep API contracts proposed until backend integration exists. Make focused commits, never push automatically.
