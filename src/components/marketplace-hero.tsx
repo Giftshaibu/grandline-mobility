@@ -11,8 +11,8 @@ export function MarketplaceHero({
 }) {
   const src =
     image === "workshop"
-      ? "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1800&q=80"
-      : "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=80";
+      ? "/marketplace-workshop.jpg"
+      : "/marketplace-road.jpg";
   return (
     <section className="marketplace-hero">
       <img src={src} alt="" fetchPriority="high" />
