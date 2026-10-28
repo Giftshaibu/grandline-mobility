@@ -67,15 +67,17 @@ test("homepage category navigation and keyboard access", async ({
     ),
   ).toBe(true);
   await expect(page.locator("html")).toHaveAttribute("data-app-ready", "true");
-  await page
-    .locator("img")
-    .evaluateAll((images) =>
-      Promise.all(
-        images.map((image) =>
-          (image as HTMLImageElement).decode().catch(() => {}),
-        ),
+  await page.locator("img").evaluateAll((images) =>
+    Promise.all(
+      images.map((image) =>
+        (() => {
+          const img = image as HTMLImageElement;
+          img.loading = "eager";
+          return img.decode().catch(() => {});
+        })(),
       ),
-    );
+    ),
+  );
   await page.screenshot({
     path: testInfo.outputPath("home.png"),
     fullPage: true,

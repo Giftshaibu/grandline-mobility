@@ -78,15 +78,17 @@ test("marketplace page visual and category navigation", async ({
   }
   await page.goto("/bike-pickup", { waitUntil: "domcontentloaded" });
   await expect(page.locator("html")).toHaveAttribute("data-app-ready", "true");
-  await page
-    .locator("img")
-    .evaluateAll((images) =>
-      Promise.all(
-        images.map((image) =>
-          (image as HTMLImageElement).decode().catch(() => {}),
-        ),
+  await page.locator("img").evaluateAll((images) =>
+    Promise.all(
+      images.map((image) =>
+        (() => {
+          const img = image as HTMLImageElement;
+          img.loading = "eager";
+          return img.decode().catch(() => {});
+        })(),
       ),
-    );
+    ),
+  );
   await page.screenshot({
     path: info.outputPath("journey.png"),
     fullPage: true,
