@@ -15,7 +15,7 @@ export default defineConfig({
   ],
   webServer: {
     command:
-      "node --env-file-if-exists=.env node_modules/vite/bin/vite.js dev --host 127.0.0.1 --port 8082",
+      "node --env-file-if-exists=.env node_modules/nitro/dist/cli/index.mjs preview --host=127.0.0.1 --port=8082",
     url: "http://127.0.0.1:8082",
     reuseExistingServer: !process.env.CI,
     timeout: 180000,
