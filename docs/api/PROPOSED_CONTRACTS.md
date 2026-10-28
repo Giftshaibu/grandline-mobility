@@ -36,3 +36,7 @@ Heavy-duty directory entries use kind heavy-duty, category, supplied vehicleType
 Future authenticated pickup creation accepts pickup/destination text, name, contact number and optional notes. Backend validation and rate limiting are required. Public forms currently validate a local draft only, never transmit or persist personal data. Proposed staff-controlled workflow: requested → availability-check → quoted → accepted → assigned → completed, with cancellation available under agreed operational rules.
 
 Staff checks coverage and availability, issues a manual whole-MWK quote and assigns a rider only after the customer accepts that exact quote. Quote identity/version and auditable acceptance must prevent stale fare acceptance. Only the requesting customer and authorized staff may read requests or quotes; assigning and quoting require staff permissions. No public rider contact or location feed. Real quote expiry/cancellation policy must be agreed with operations before backend implementation. Until then there is no endpoint, fare, request status or rider assignment to display. No matching, tracking, automatic fare or payment integration is included.
+
+### Local catalogue samples
+
+The user subsequently approved a placeholder catalogue for browsing. Its records are frontend-only, explicitly marked samples and not API fixtures/responses, published stock or business identities. No contract implementation is implied by cards, sample rates or sample detail routes. Live creation, enquiry, inventory and shop ownership remain blocked.

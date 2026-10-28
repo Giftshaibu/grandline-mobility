@@ -33,3 +33,7 @@ Set the same optional product URLs independently in each frontend. Services shop
 Editorial hero photos are locally served from public/marketplace-workshop.jpg and public/marketplace-road.jpg, with a dark-color fallback; loading failure must not hide text or actions. Unsplash license permits commercial use: https://unsplash.com/license. The workshop photo is photo-1486262715619-67b85e0b08d3 and the vehicle photo is photo-1503376780353-7e6692767b70. They illustrate categories, never a provider/listing or Malawi inventory. Replace with client-owned photography when supplied.
 
 Mobility-specific illustrative photos: marketplace-truck.jpg (Unsplash photo-1519003722824-194d4455a60c) and marketplace-bike.jpg (photo-1558981806-ec527fa84c39), under the same license. Neither depicts Grandline inventory, an assigned rider or a guaranteed service area.
+
+## User-approved sample browsing
+
+Unavailable directory pages now expose a labelled local sample catalogue. This is a frontend preview collection, not seeded production data or an HTTP response. Details use reserved sample- slugs and noindex/nofollow; no contact, enquiry, payment or booking is enabled. Real errors retain error states. When backend support is implemented, preserve the boundary and use real results instead of local sample records.
