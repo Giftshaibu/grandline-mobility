@@ -6,7 +6,7 @@ import {
   createRootRouteWithContext,
   Link,
 } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { AuthProvider } from "../components/auth";
 import { Shell } from "../components/shell";
 import appCss from "../styles.css?url";
@@ -61,6 +61,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   },
 );
 function Root() {
+  useEffect(() => {
+    document.documentElement.dataset["appReady"] = "true";
+    return () => { delete document.documentElement.dataset["appReady"]; };
+  }, []);
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>

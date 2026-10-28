@@ -2,11 +2,14 @@ import { test, expect } from "@playwright/test";
 test("public discovery criteria survive reload without fake API requests", async ({
   page,
 }) => {
+  const runtimeErrors: string[] = [];
+  page.on("pageerror", error => runtimeErrors.push(error.message));
   const requests: string[] = [];
   page.on("request", (r) => {
     if (r.url().includes("/api/v1/")) requests.push(r.url());
   });
   await page.goto("/hire");
+  await expect(page.locator("html")).toHaveAttribute("data-app-ready", "true", {timeout:30000});
   await expect(
     page.getByRole("heading", { name: "Vehicle hire", exact: true }),
   ).toBeVisible();
@@ -15,17 +18,19 @@ test("public discovery criteria survive reload without fake API requests", async
   await page.getByRole("button", { name: "Explore vehicles" }).click();
   await expect(page).toHaveURL(/q=repair/);
   await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-app-ready", "true", {timeout:30000});
   await expect(page.getByLabel("Vehicle or provider")).toHaveValue("repair");
   await expect(
     page.getByText("Directory coming soon", { exact: true }),
   ).toBeVisible();
   expect(requests).toEqual([]);
+  expect(runtimeErrors).toEqual([]);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "Clear search" }).click();
+  await page.getByRole("link", { name: "Clear search" }).click();
   await expect(page.getByLabel("Vehicle or provider")).toHaveValue("");
 });
 test("details cannot submit unavailable enquiries", async ({ page }) => {
@@ -47,6 +52,7 @@ test("homepage category navigation and keyboard access", async ({
   page,
 }, testInfo) => {
   await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-app-ready", "true", {timeout:30000});
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -76,5 +82,9 @@ test("known unavailable state renders without client JavaScript", async ({
   await expect(
     page.getByRole("button", { name: "Enquiries unavailable" }),
   ).toBeDisabled();
+  await page.goto("/hire?q=repair&location=Lilongwe");
+  await page.getByRole("link", { name: "Clear search" }).click();
+  await expect(page.getByLabel("Vehicle or provider")).toHaveValue("");
+  await expect(page).not.toHaveURL(/q=repair/);
   await context.close();
 });

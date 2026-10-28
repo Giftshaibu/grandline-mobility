@@ -16,7 +16,18 @@ export function MobilityBrowser({
   const path = paths[kind];
   const query = useInfiniteQuery({
     enabled: directory.supported,
-    ...(!directory.supported ? { initialData: { pages: [{ state: "unavailable" } as Awaited<ReturnType<typeof directory.list>>], pageParams: [undefined] } } : {}),
+    ...(!directory.supported
+      ? {
+          initialData: {
+            pages: [
+              { state: "unavailable" } as Awaited<
+                ReturnType<typeof directory.list>
+              >,
+            ],
+            pageParams: [undefined],
+          },
+        }
+      : {}),
     queryKey: ["mobility", kind, search],
     initialPageParam: undefined as string | undefined,
     queryFn: ({ signal, pageParam }) =>
@@ -84,7 +95,7 @@ export function MobilityBrowser({
       </form>
       <p className="criteria">
         {Object.values(search).filter(Boolean).join(" · ") || "All categories"}{" "}
-        · <button onClick={() => onSearch({})}>Clear search</button>
+        · <a href={`/${kind}`}>Clear search</a>
       </p>
       <Availability
         result={query.isError ? { state: "error", reason: "network" } : result}
