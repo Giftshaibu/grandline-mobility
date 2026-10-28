@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 import Menu01Icon from "@hugeicons/core-free-icons/Menu01Icon";
+import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
 import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import { ecosystem } from "../lib/config";
 import {
@@ -62,6 +63,21 @@ export function Shell({ children }: { children: React.ReactNode }) {
           {marketplaceLinks.map((item) => (
             <details
               key={item.href}
+              onMouseEnter={(event) => {
+                if (window.matchMedia("(hover: hover)").matches)
+                  event.currentTarget.open = true;
+              }}
+              onMouseLeave={(event) => {
+                if (
+                  window.matchMedia("(hover: hover)").matches &&
+                  !event.currentTarget.contains(document.activeElement)
+                )
+                  event.currentTarget.open = false;
+              }}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget))
+                  event.currentTarget.open = false;
+              }}
               onKeyDown={(event) => {
                 if (event.key === "Escape") {
                   event.currentTarget.open = false;
@@ -69,7 +85,26 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 }
               }}
             >
-              <summary>{item.label}</summary>
+              <summary
+                onClick={(event) => {
+                  if (
+                    event.detail > 0 &&
+                    window.matchMedia("(hover: hover)").matches
+                  ) {
+                    event.preventDefault();
+                    (
+                      event.currentTarget.parentElement as HTMLDetailsElement
+                    ).open = true;
+                  }
+                }}
+              >
+                <span>{item.label}</span>
+                <HugeiconsIcon
+                  icon={ArrowDown01Icon}
+                  size={14}
+                  aria-hidden="true"
+                />
+              </summary>
               <div className="nav-dropdown">
                 <a href={item.href}>
                   <strong>{item.label} →</strong>

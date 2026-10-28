@@ -1,3 +1,4 @@
+import { SampleCatalogue } from "./sample-catalogue";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { directory, type Kind } from "../lib/directory";
 import { normalizeSearch, type DirectorySearch } from "../lib/contracts";
@@ -105,15 +106,20 @@ export function MobilityBrowser({
             "All categories"}{" "}
           · <a href={`/${kind}`}>Clear search</a>
         </p>
-        <Availability
-          result={
-            query.isError ? { state: "error", reason: "network" } : result
-          }
-          pending={query.isPending}
-          retry={() => {
-            void query.refetch();
-          }}
-        />
+        {result?.state === "unavailable" ? (
+          <SampleCatalogue search={search} kind={kind} />
+        ) : (
+          <Availability
+            result={
+              query.isError ? { state: "error", reason: "network" } : result
+            }
+            pending={query.isPending}
+            retry={() => {
+              void query.refetch();
+            }}
+          />
+        )}
+
         {result?.state === "ready" &&
           (entries.length ? (
             <>

@@ -1,3 +1,5 @@
+import { sampleDetail } from "../lib/sample-catalogue";
+import { SampleNotice } from "./sample-notice";
 import { useQuery } from "@tanstack/react-query";
 import { directory, type Kind } from "../lib/directory";
 import { paths } from "../lib/categories";
@@ -17,10 +19,14 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
     queryFn: ({ signal }) => directory.detail(slug, kind, signal),
     retry: false,
   });
-  const result = query.data;
+  const sample = !directory.supported ? sampleDetail(slug, kind) : undefined;
+  const result = sample
+    ? { state: "ready" as const, data: sample }
+    : query.data;
   const entry = result?.state === "ready" ? result.data : undefined;
   return (
     <section className="wrap section">
+      {sample && <SampleNotice />}
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <a href="/">Mobility</a>
         <span>/</span>

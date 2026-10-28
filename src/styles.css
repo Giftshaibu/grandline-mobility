@@ -1130,3 +1130,174 @@ textarea::placeholder {
 .market-footer {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
+
+/* Align navigation labels and icons on one baseline, with Auto Hub hover feedback. */
+.product-nav summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 20px;
+  min-height: 40px;
+  padding: 8px 4px;
+  white-space: nowrap;
+  transition: color 150ms ease;
+}
+.product-nav summary::after {
+  content: none;
+}
+.product-nav summary::-webkit-details-marker {
+  display: none;
+}
+.product-nav summary svg {
+  display: block;
+  flex: none;
+  transition: transform 150ms ease;
+}
+.product-nav details[open] > summary {
+  color: var(--brand);
+}
+.product-nav details[open] > summary svg {
+  transform: rotate(180deg);
+}
+.product-nav summary:hover,
+.icon-action:hover {
+  color: var(--brand);
+}
+.icon-action:hover {
+  background: var(--accent);
+  border-radius: 6px;
+}
+.nav-dropdown a {
+  border-radius: 4px;
+  padding: 8px;
+  margin: -8px;
+}
+.nav-dropdown a:hover {
+  background: var(--accent);
+}
+.nav-categories {
+  gap: 6px;
+}
+.nav-categories a {
+  margin: 0;
+  padding: 8px;
+}
+.sample-notice {
+  border-left: 3px solid var(--brand);
+  background: var(--surface);
+  padding: 18px 22px;
+  margin-block: 28px;
+}
+.sample-notice p {
+  font-size: 14px;
+  margin-top: 5px;
+}
+.catalogue-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-block: 28px;
+}
+.catalogue-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+.catalogue-toolbar select {
+  width: auto;
+}
+.sample-label {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--brand);
+  margin-bottom: 10px;
+}
+.sample-card img {
+  display: block;
+  transition: transform 200ms ease;
+}
+.sample-card:hover {
+  box-shadow: 0 8px 20px #0000000d;
+}
+.sample-card:hover img {
+  transform: scale(1.025);
+}
+.sample-media {
+  overflow: hidden;
+  position: relative;
+}
+.sample-media > span {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  background: #111d;
+  color: white;
+  padding: 3px 8px;
+  font-size: 10px;
+}
+.sample-price {
+  font-weight: 700;
+  font-size: 18px !important;
+}
+.sample-description {
+  min-height: 3em;
+}
+.sample-card .button {
+  width: 100%;
+}
+.catalogue-empty {
+  padding: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+@media (max-width: 600px) {
+  .catalogue-toolbar {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .catalogue-toolbar label {
+    width: 100%;
+  }
+  .catalogue-toolbar select {
+    flex: 1;
+  }
+  .sample-notice {
+    padding: 16px;
+  }
+  .sample-card .card-body {
+    padding: 18px;
+  }
+}
+
+.sample-media {
+  display: block;
+  aspect-ratio: 4/3;
+}
+.sample-media img {
+  height: 100%;
+  object-fit: cover;
+}
+.sample-card {
+  display: flex;
+  flex-direction: column;
+}
+.sample-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.sample-card h3 {
+  min-height: 2.8em;
+}
+.sample-card .button {
+  margin-top: auto;
+}
+.sample-card .sample-description {
+  margin-bottom: 22px;
+}
