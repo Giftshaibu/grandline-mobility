@@ -14,6 +14,7 @@ function BikePickup() {
     <>
       <div className="browse-hero">
         <MarketplaceHero
+          image="bike"
           title="A bike pickup, planned around you."
           description="A staff-coordinated journey with availability and fare confirmed before a rider is assigned."
         />

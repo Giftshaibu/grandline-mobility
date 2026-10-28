@@ -6,13 +6,15 @@ export function MarketplaceHero({
 }: {
   title: string;
   description: string;
-  image?: "road" | "workshop";
+  image?: "road" | "workshop" | "truck" | "bike";
   children?: React.ReactNode;
 }) {
-  const src =
-    image === "workshop"
-      ? "/marketplace-workshop.jpg"
-      : "/marketplace-road.jpg";
+  const src = {
+    road: "/marketplace-road.jpg",
+    workshop: "/marketplace-workshop.jpg",
+    truck: "/marketplace-truck.jpg",
+    bike: "/marketplace-bike.jpg",
+  }[image];
   return (
     <section className="marketplace-hero">
       <img src={src} alt="" fetchPriority="high" />

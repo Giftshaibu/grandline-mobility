@@ -45,7 +45,11 @@ export function MobilityBrowser({
   return (
     <>
       <div className="browse-hero">
-        <MarketplaceHero title={path.title} description={path.description} />
+        <MarketplaceHero
+          image={kind === "hire" ? "road" : "truck"}
+          title={path.title}
+          description={path.description}
+        />
       </div>
       <section className="wrap section">
         <form
