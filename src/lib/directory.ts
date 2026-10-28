@@ -22,7 +22,7 @@ export type Result<T> =
         | "rate-limit"
         | "server";
     };
-export type Kind = "hire" | "commercial" | "logistics";
+export type Kind = "hire" | "heavy-duty" | "commercial" | "logistics";
 type Page = z.infer<typeof pageSchema>;
 type Entry = z.infer<typeof entrySchema>;
 export interface DirectoryGateway {

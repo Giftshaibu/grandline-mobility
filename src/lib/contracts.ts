@@ -83,6 +83,13 @@ export const entrySchema = z.discriminatedUnion("kind", [
     transmission: text.optional(),
   }),
   mobilityBase.extend({
+    kind: z.literal("heavy-duty"),
+    price: moneySchema.optional(),
+    vehicleType: text.optional(),
+    cargoCapacityKg: z.number().nonnegative().optional(),
+    operatorIncluded: z.boolean().optional(),
+  }),
+  mobilityBase.extend({
     kind: z.literal("commercial"),
     cargoCapacityKg: z.number().nonnegative().optional(),
     passengerCapacity: z.number().int().positive().optional(),
@@ -99,3 +106,21 @@ export const pageSchema = z.object({
   nextCursor: z.string().nullable(),
 });
 export type Entry = z.infer<typeof entrySchema>;
+
+// Proposed staff-coordinated pickup contract; never submitted by this release.
+export const bikeRequestSchema = z.object({
+  pickup: text,
+  destination: text,
+  name: z.string().trim().min(1).max(120),
+  phone: z.string().trim().min(7).max(30),
+  notes: z.string().trim().max(2000).optional(),
+});
+export const bikeRequestStatuses = [
+  "requested",
+  "availability-check",
+  "quoted",
+  "accepted",
+  "assigned",
+  "completed",
+  "cancelled",
+] as const;

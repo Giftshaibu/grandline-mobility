@@ -49,13 +49,14 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
                   </dd>
                 </>
               )}
-              {entry.kind !== "logistics" && entry.passengerCapacity && (
-                <>
-                  <dt>Passengers</dt>
-                  <dd>{entry.passengerCapacity}</dd>
-                </>
-              )}
-              {entry.kind === "commercial" &&
+              {(entry.kind === "hire" || entry.kind === "commercial") &&
+                entry.passengerCapacity && (
+                  <>
+                    <dt>Passengers</dt>
+                    <dd>{entry.passengerCapacity}</dd>
+                  </>
+                )}
+              {(entry.kind === "commercial" || entry.kind === "heavy-duty") &&
                 entry.cargoCapacityKg !== undefined && (
                   <>
                     <dt>Cargo capacity</dt>
@@ -75,6 +76,24 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
                 </>
               )}
             </dl>
+            {entry.kind === "heavy-duty" && (
+              <dl className="facts">
+                {entry.vehicleType && (
+                  <>
+                    <dt>Vehicle type</dt>
+                    <dd>{entry.vehicleType}</dd>
+                  </>
+                )}
+                {entry.operatorIncluded !== undefined && (
+                  <>
+                    <dt>Operator</dt>
+                    <dd>
+                      {entry.operatorIncluded ? "Included" : "Not included"}
+                    </dd>
+                  </>
+                )}
+              </dl>
+            )}
             {entry.terms && (
               <>
                 <h2>Terms</h2>

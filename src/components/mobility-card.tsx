@@ -22,9 +22,10 @@ export function MobilityCard({ entry }: { entry: Entry }) {
         {entry.kind === "hire" && entry.passengerCapacity && (
           <p>{entry.passengerCapacity} passengers</p>
         )}
-        {entry.kind === "commercial" && entry.cargoCapacityKg !== undefined && (
-          <p>{entry.cargoCapacityKg.toLocaleString()} kg carrying capacity</p>
-        )}
+        {(entry.kind === "commercial" || entry.kind === "heavy-duty") &&
+          entry.cargoCapacityKg !== undefined && (
+            <p>{entry.cargoCapacityKg.toLocaleString()} kg carrying capacity</p>
+          )}
         {entry.kind === "logistics" && <p>{entry.serviceAreas.join(" · ")}</p>}
         <a
           className="button secondary"
