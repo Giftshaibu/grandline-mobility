@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MobilityDetail } from "../components/mobility-detail";
 export const Route = createFileRoute("/commercial/$slug")({
+  head: ({ params }) =>
+    params.slug.startsWith("sample-")
+      ? { meta: [{ name: "robots", content: "noindex,nofollow" }] }
+      : {},
   component: Detail,
 });
 function Detail() {
