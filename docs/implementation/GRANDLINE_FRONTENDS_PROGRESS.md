@@ -28,3 +28,11 @@ Auto Hub typecheck/build passed; lint has six existing fast-refresh warnings and
 Backend tooling is complete in commits 5caa4cb, 9e89770, 816290e and 07dfb45. Full backend unit/API suite: 119 passed; typecheck/build passed. Exact six seed IDs only, identity/dependency blockers, default dry-run, digest recheck, serializable apply and backup are implemented. The disposable PostgreSQL rollback/restore integration scenario and CI are prepared but were not executed locally because the Docker daemon is unavailable.
 
 Production inventory, backup and deletion remain blocked by missing server-side credentials. No production connection or data change occurred. Follow ../grandline-backend/DEMO_CATALOGUE_CLEANUP.md, run the disposable database rehearsal, produce the exact affected-record preview/backup and obtain approval before deletion. Preserve reservations and linked submissions. No automatic push or deployment.
+
+## Marketplace design and connected shops — 2026-10-28
+
+Objective: match Auto Hub marketplace composition and introduce connected shop/heavy-duty/bike journeys. Dependencies: existing independent foundations; no backend implementation. Acceptance: responsive search/header/footer, real category links, image-led heroes, disabled unsupported journeys, no fabricated listings or inspection promises. Shared shop identity is proposed; spare-part links use only configured Hub /parts.
+
+Checks: typecheck/lint/build, domain/component tests, desktop/mobile browser search, menus, filters and unavailable states. Final results are recorded in CURRENT_STATE.md. Rollback: revert the focused marketplace commits or redeploy the prior artifact. Commits: see Git history for feat(marketplace), test(marketplace) and docs(marketplace). Production activation remains blocked by backend operations and approved configuration.
+
+Marketplace acceptance complete: shell 9ecd65d, journeys ee9242a, photos 8f0bf03/cdf6686 and tests 9e0f142. Typecheck/lint/build passed; 28 unit/component and 18 desktop/mobile browser tests passed. Preview port 4302 avoids Windows reserved ports. Screenshot checks wait for local image decoding. Backend integration and production identity remain blocked.
