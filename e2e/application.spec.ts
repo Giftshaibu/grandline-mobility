@@ -198,3 +198,19 @@ test("listing preview is disabled without JavaScript and linked in navigation", 
       .click();
   await expect(page).toHaveURL(/\/list$/);
 });
+
+test("page exit clears the temporary application draft", async ({ page }) => {
+  await page.goto("/list", { waitUntil: "domcontentloaded" });
+  await page.getByLabel("Listing type", { exact: true }).selectOption("hire");
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page
+    .getByLabel("Business or operator name")
+    .fill("Temporary private draft");
+  await page.evaluate(() => window.dispatchEvent(new Event("pagehide")));
+  await expect(page.getByLabel("Listing type", { exact: true })).toHaveValue(
+    "",
+  );
+  await page.getByLabel("Listing type", { exact: true }).selectOption("hire");
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByLabel("Business or operator name")).toHaveValue("");
+});
