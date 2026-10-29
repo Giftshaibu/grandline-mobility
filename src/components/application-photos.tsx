@@ -21,7 +21,13 @@ export function useApplicationPhotos() {
       url: URL.createObjectURL(file),
     }));
     setPreviews(next);
-    return () => next.forEach((photo) => URL.revokeObjectURL(photo.url));
+    const revoke = () =>
+      next.forEach((photo) => URL.revokeObjectURL(photo.url));
+    window.addEventListener("pagehide", revoke);
+    return () => {
+      window.removeEventListener("pagehide", revoke);
+      revoke();
+    };
   }, [files]);
   return { files, setFiles, previews };
 }

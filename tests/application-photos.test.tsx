@@ -63,3 +63,22 @@ it("rejects invalid additions without losing the selected files", () => {
   expect(screen.getByRole("alert")).toHaveTextContent("JPEG");
   expect(change).not.toHaveBeenCalled();
 });
+
+it("revokes local previews when the page is hidden for navigation", () => {
+  const original = URL;
+  const revoke = vi.fn();
+  class TestURL extends original {
+    static createObjectURL = () => "blob:navigation-photo";
+    static revokeObjectURL = revoke;
+  }
+  vi.stubGlobal("URL", TestURL);
+  const { result, unmount } = renderHook(() => useApplicationPhotos());
+  act(() =>
+    result.current.setFiles([
+      new File(["x"], "image.png", { type: "image/png" }),
+    ]),
+  );
+  act(() => window.dispatchEvent(new Event("pagehide")));
+  expect(revoke).toHaveBeenCalledWith("blob:navigation-photo");
+  unmount();
+});

@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ApplicationValidation,
@@ -29,6 +30,17 @@ export function ApplicationWizard({
   const focusRequested = useRef(false);
   const last = steps.length - 1;
   useEffect(() => setReady(true), []);
+  useEffect(() => {
+    const discard = () =>
+      flushSync(() => {
+        onReset();
+        setStep(0);
+        setErrors({});
+        setEditing(false);
+      });
+    window.addEventListener("pagehide", discard);
+    return () => window.removeEventListener("pagehide", discard);
+  }, [onReset]);
   useEffect(() => {
     if (focusRequested.current) {
       focusRequested.current = false;
