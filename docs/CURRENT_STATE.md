@@ -23,3 +23,7 @@ Typecheck, lint and independent Vercel production build pass. Latest unit/compon
 Entry route: src/routes/list.tsx. Local foundations: src/components/application-*.tsx; domain form/model: src/components/mobility-application*.tsx and src/lib/mobility-application.ts. Tests: tests/*application* and e2e/application.spec.ts. Generated routeTree.gen.ts is ignored; generate with Vite. See docs/api/PROPOSED_CONTRACTS.md for blocked interfaces and docs/DEPLOYMENT.md for rollout/rollback.
 
 Next backend phase must implement scoped uploads, authenticated ownership, application persistence, review feedback and explicit publication before enabling submission. Roll back via normal feature reverts or previous deployment. Preview: http://127.0.0.1:4302/list. No pushes, deployment, backend changes or production demo cleanup occurred.
+
+### Backend integration checkpoint — 2026-10-29
+
+The backend now has default-off business ownership, Services saved application/media/moderation and per-business/product billing core. These APIs have not been activated in this frontend. Public discovery/publication/enquiries, configured authentication/storage/payment operations and controlled staging journeys remain required before live submission. Mobility and ride operations remain unavailable. Canonical backend status: grandline-backend/docs/implementation/BACKEND_INTEGRATION_PROGRESS.md (sibling documentation reference).
