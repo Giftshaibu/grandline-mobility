@@ -1,3 +1,4 @@
+import { ListingCallout } from "../components/listing-callout";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { MarketplaceHero } from "../components/marketplace-hero";
@@ -161,6 +162,7 @@ function BikePickup() {
             </p>
           </aside>
         </div>
+        <ListingCallout />
       </section>
     </>
   );

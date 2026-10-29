@@ -6,6 +6,7 @@ import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
 import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import { ecosystem } from "../lib/config";
 import {
+  listingAction,
   categoryLinks,
   marketplaceLinks,
   productName,
@@ -45,6 +46,12 @@ export function Shell({ children }: { children: React.ReactNode }) {
               <HugeiconsIcon icon={Search01Icon} size={23} />
               <span>Search</span>
             </button>
+            <a
+              className="button header-listing-action"
+              href={listingAction.href}
+            >
+              {listingAction.label}
+            </a>
             <AccountControl />
             <button
               className="icon-action mobile-menu"
@@ -188,6 +195,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </button>
         </div>
         <nav aria-label="Mobile navigation">
+          <a href={listingAction.href}>
+            <strong>{listingAction.label}</strong>
+            <span>Prepare an application for future staff review</span>
+          </a>
           <a href="/">Home</a>
           {marketplaceLinks.map((item) => (
             <a key={item.href} href={item.href}>
@@ -226,6 +237,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <nav aria-label={`${productName} footer`}>
             <h3>Explore {productName}</h3>
+            <a href={listingAction.href}>{listingAction.label} →</a>
             {marketplaceLinks.map((item) => (
               <a key={item.href} href={item.href}>
                 {item.label}

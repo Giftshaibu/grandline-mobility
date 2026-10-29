@@ -1,3 +1,4 @@
+import { ListingCallout } from "./listing-callout";
 import { SampleCatalogue } from "./sample-catalogue";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { directory, type Kind } from "../lib/directory";
@@ -146,6 +147,7 @@ export function MobilityBrowser({
               <p>Try another category or location.</p>
             </div>
           ))}
+        <ListingCallout />
       </section>
     </>
   );

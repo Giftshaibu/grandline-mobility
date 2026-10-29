@@ -1,3 +1,4 @@
+import { ListingCallout } from "../components/listing-callout";
 import { createFileRoute } from "@tanstack/react-router";
 import { paths } from "../lib/categories";
 import { MarketplaceHero } from "../components/marketplace-hero";
@@ -59,6 +60,7 @@ function Home() {
             dispatch or payment is taken here.
           </p>
         </div>
+        <ListingCallout />
       </section>
     </>
   );
