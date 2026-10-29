@@ -27,7 +27,7 @@ No operations in this section exist in the shared backend. No frontend HTTP call
 
 One stable shop UUID/slug identifies a staff-managed business across Services and Auto Hub. Proposed shop category/list/detail operations support normalized q/location/category and cursor pagination consistent with the directory contract. Shop detail carries supplied description, location, contact, images and an array of services (name, category, optional description). Missing optional fields are omitted.
 
-Staff creates/edits/publishes profiles and assigns an owner identity; owner management requires backend authorization and existing parts moderation, never frontend role checks alone. Public responses exclude private ownership/contact records. A part listing may have a nullable shopId; independent sellers remain valid. Shop assignment must be authorized and public inventory includes only published parts. Shop-filtered parts discovery is proposed; until implemented, UI links only to configured Auto Hub /parts, explicitly labelled all spare parts. No shop filter or inventory count is invented.
+Businesses will apply for profiles and services; staff reviews applications, assigns ownership and controls publication. Owner management requires backend authorization and existing parts moderation, never frontend role checks alone. Public responses exclude private ownership/contact records. A part listing may have a nullable shopId; independent sellers remain valid. Shop assignment must be authorized and public inventory includes only published parts. Shop-filtered parts discovery is proposed; until implemented, UI links only to configured Auto Hub /parts, explicitly labelled all spare parts. No shop filter or inventory count is invented.
 
 ### Heavy-duty hire and bike pickup
 
@@ -40,3 +40,22 @@ Staff checks coverage and availability, issues a manual whole-MWK quote and assi
 ### Local catalogue samples
 
 The user subsequently approved a placeholder catalogue for browsing. Its records are frontend-only, explicitly marked samples and not API fixtures/responses, published stock or business identities. No contract implementation is implied by cards, sample rates or sample detail routes. Live creation, enquiry, inventory and shop ownership remain blocked.
+
+## Listing applications — frontend implemented, backend blocked (2026-10-29)
+
+Public application entry: /list. Applications are anonymous local drafts through review only. They are not submitted, uploaded, saved to an account, added to sample cards or published. Draft state and File objects live in component memory and disappear when the route is left or refreshed. Photos have local object URLs that are revoked on change/unmount.
+
+| Proposed operation — absent | Intended capability | Authorization before activation |
+|---|---|---|
+| POST /api/v1/mobility-applications | Validate and submit one application for staff review | Authenticated owner; server derives identity |
+| POST /api/v1/mobility-applications/:id/media | Issue/complete a scoped media upload associated with this application | Owner or authorized staff; enforce ownership, image limits and storage policy |
+| GET /api/v1/me/mobility-applications | Owner application list and review status | Authenticated owner only |
+| GET /api/v1/me/mobility-applications/:id | Owner application and staff feedback | Owner only; no public contact/payment data |
+| GET /api/v1/staff/mobility-applications | Moderation queue and application detail | Existing staff organization/role policy, enforced server-side |
+| POST /api/v1/staff/mobility-applications/:id/review | Record approval, rejection or requested changes | Staff only, with auditable reason and explicit publication decision |
+
+These are proposed names, not implemented server routes. No frontend adapter calls them. UI-controlled numeric strings and local service row IDs are not a wire payload. Agree normalized DTOs, owner edit/resubmission rules, idempotency, moderation states, publication rules, indexes and media retention in the backend implementation before enabling submission. Do not reuse vehicle-sale submissions or private billing logic by silently changing their contracts. Real submission must require Clerk authentication, server validation and staff review; a local review is not approval.
+
+One application describes one hire/heavy-duty/commercial/logistics/bike-operator offering and its provider. Type determines vehicle/equipment/category/capacity/operator/terms fields; logistics uses service areas and cargo/service descriptions without vehicle identity. Bike applications include motorcycle details but no identity documents, fare, automatic approval or rider assignment. Changing type clears offering fields and photos while retaining business/contact data. The application adds an explicit delivery-services selection; it does not add a live catalogue category endpoint.
+
+Informational monthly rates: hire companies MK50,000; lorries/trucks MK25,000; explicit delivery services MK50,000; motorcycle operators MK10,000. Individual hire and unmapped heavy-duty/logistics categories require staff confirmation. Never apply sale asking-price tiers to rentals, aggregate a bill or collect payment. Customer bike pickup requests remain a separate journey.

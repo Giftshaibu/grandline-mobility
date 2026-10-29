@@ -1,25 +1,25 @@
-# Current state — 2026-10-28
+# Current state — 2026-10-29
 
-Branch: main. Marketplace checkpoint: 9ecd65d (shell), ee9242a (heavy-duty/bike), 8f0bf03/cdf6686 (local editorial photos), 9e0f142 (tests), followed by screenshot-readiness and documentation commits.
+Branch: main. Listing application checkpoint: 20b639c, tests 60ba26f, page-exit privacy 21f1dbd, followed by focused test/documentation commits.
 
-## Implemented
+## Objective and implemented phase
 
-Auto Hub-style logo/search/account header, category dropdowns, native mobile menu, product-specific footer, image-led home/browse pages and journey cards. Distinct /hire, /heavy-duty, /commercial, /logistics and /bike-pickup routes. Heavy-duty detail presentation supports supplied capacity, type, operator, price and terms. Bike pickup allows local draft/review, explaining staff availability checks, manual quote, customer acceptance and assignment. It sends/saves nothing; submission and quote acceptance are disabled. Review remains disabled without JavaScript. Local photos illustrate car/truck/motorcycle categories and never represent inventory or assigned riders.
+Frontend-only listing applications are complete at /list. One hire, heavy-duty, commercial, logistics or bike-operator offering per application, with conditional identity/capacity/operator/terms/rate fields. Logistics omits vehicle fields. Bike operator applications remain separate from customer pickup requests and imply no dispatch eligibility.
 
-## Integration limits
+Both products have six-step validation, error focus, back/edit-and-return behavior, optional local photo previews/removal, monthly fee guidance, reset and disabled final submission. Photos follow Auto Hub's 8-file / 12-MB JPEG/PNG/WebP rules; no upload code is copied. Header, mobile menu, footer and browsing pages link to the applications. Existing marketplace shell, hover menus, labelled sample catalogue and bike pickup preview remain stable.
 
-Real category/search/detail/enquiry/pickup APIs, quotes, dispatch and staff management remain blocked. No new backend model, migration, onboarding, payments, tracking or simulated successful enquiry. Unified shop/optional parts association and staff-managed identity contracts are proposed in docs/api/PROPOSED_CONTRACTS.md. Live Clerk configuration and cross-domain identity remain launch prerequisites.
+## Boundaries
+
+Drafts live in component memory only; refresh/route exit discards them. Page-hide handling clears drafts for browser back-navigation caches and revokes local photo URLs. No account draft, upload, payment, moderation record, publication or sample listing is created. Final submission remains disabled before/after hydration and without JavaScript. Public preview needs no sign-in; real submission will need authenticated ownership and staff review.
+
+The earlier staff-created-only shop model is superseded by business applications for staff approval. Real shop/directory/application/enquiry/media/status/staff-review endpoints are still absent. Fee amounts are informational category guidance, not aggregated bills or vehicle-sale price tiers; unmapped categories need staff confirmation. No government identity documents or dispatch onboarding are collected.
 
 ## Verification
 
-Latest catalogue release: typecheck, lint and production build passed. All 30 unit/component tests passed; 21 desktop/mobile browser tests passed with one mobile hover-only test intentionally skipped. Browser checks cover hover opening/closing, keyboard Escape, label/chevron vertical alignment, filtered sample grids, sample detail navigation, disabled enquiries and no hypothetical API calls. Existing search, menu and pickup checks remain green. Desktop sample catalogue and mobile layouts were reviewed. Previews use port 4302. No remote CI or production deployment.
+Typecheck, lint and independent Vercel production build pass. Latest unit/component suite: 38 passed. Full browser suite before final privacy refinement: 33 passed and one mobile hover-only test intentionally skipped. Final targeted desktop/mobile application, keyboard and page-exit checks: 16 passed. This covers form branching, validation, photo previews/removal/URL cleanup, edit-and-return, reset, refresh, no-JavaScript disabling and no upload/API transmission. Desktop/mobile layouts and review screens were inspected. Remote CI and live authenticated/backend journeys were not run.
 
-## Continue here
+## Working set / next action
 
-Relevant files: src/components/shell.tsx, marketplace-hero.tsx, mobility-browser.tsx, mobility-detail.tsx; src/routes/heavy-duty*, bike-pickup.tsx; src/lib/contracts.ts and marketplace.ts; tests/marketplace.test.tsx; e2e/marketplace.spec.ts. Generated routeTree.gen.ts remains ignored. Implement approved shared-backend contracts separately before enabling real journeys. Roll back through normal reverts or prior deployments. No push, deployment or production demo cleanup occurred.
+Entry route: src/routes/list.tsx. Local foundations: src/components/application-*.tsx; domain form/model: src/components/mobility-application*.tsx and src/lib/mobility-application.ts. Tests: tests/*application* and e2e/application.spec.ts. Generated routeTree.gen.ts is ignored; generate with Vite. See docs/api/PROPOSED_CONTRACTS.md for blocked interfaces and docs/DEPLOYMENT.md for rollout/rollback.
 
-## User-requested sample catalogue and hover correction
-
-Source 365ef76; tests 5c7cd33. The user requested a browsable placeholder catalogue after the design-only release. Local samples are therefore an explicit change to the earlier no-sample UI, separate from test fixtures and real directory gateways. Records use Example names, sample- slugs, illustrative media, no real contacts and clear sample labels on grids/details. Filters and sorting work locally. Sample details are noindex/nofollow; they cannot be booked or enquired about. No database seed, API response, account or production listing was changed.
-
-Header labels and SVG chevrons share a flex center line. Desktop pointer hover opens menus, moving away closes them unless keyboard focus is inside, and native click/Enter/Escape remain supported. No push performed.
+Next backend phase must implement scoped uploads, authenticated ownership, application persistence, review feedback and explicit publication before enabling submission. Roll back via normal feature reverts or previous deployment. Preview: http://127.0.0.1:4302/list. No pushes, deployment, backend changes or production demo cleanup occurred.

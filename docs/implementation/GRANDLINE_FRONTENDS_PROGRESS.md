@@ -40,3 +40,11 @@ Marketplace acceptance complete: shell 9ecd65d, journeys ee9242a, photos 8f0bf03
 ## Hover menus and user-approved sample catalogue — 2026-10-28
 
 Objective: fix desktop hover/chevron alignment and allow catalogue browsing rather than an unavailable-only page. Dependencies: existing local catalogue presenters; no backend. User explicitly requested placeholder directory content, superseding the earlier empty-directory-only presentation. Acceptance: filter/sort labelled samples, open sample details, preserve disabled enquiries and isolate records from real gateways/database. Source 365ef76, tests 5c7cd33. Typecheck/lint/build and 30 unit/component tests pass; 21 browser tests pass, with the desktop-only hover check skipped on mobile. Rollback: normal revert of the catalogue commits or previous deployment. Production backend support remains blocked.
+
+## Listing application flows — 2026-10-29
+
+Objective: public business-prepared applications through review, with real submission blocked. Dependencies: existing local shell, categories, optional Clerk configuration and media rules from Auto Hub. Acceptance: six validated steps, conditional offerings, optional local photos, contact/review/edit/reset, informational fees, visible listing entry points and no network/persistence/publication.
+
+Source 20b639c; tests 60ba26f; privacy fix 21f1dbd; final page-exit test and documentation commits follow in Git history. Typecheck/lint/build pass; 38 unit/component tests pass. Full browser baseline: 33 passed, one mobile hover-only skip. Final affected application/keyboard/page-exit checks: 16 passed. No-JavaScript controls are disabled. No draft enters the sample catalogue or backend.
+
+Business applications supersede staff-created-only profiles; staff approval and backend authorization remain future requirements. Rollback: revert these application feature commits or redeploy the prior independent frontend. No migration or database rollback is required. Real submissions, uploads, owner status, staff moderation and publication remain blocked pending the proposed shared-backend contracts. No automatic push or deployment.

@@ -36,3 +36,7 @@ Local preview/browser checks use 4302 because Windows reserved the previous port
 ## Sample catalogue
 
 Browse cards and detail pages while the directory is unavailable. Samples carry Example names, illustrative photos and repeated sample labels, with local category/location/text filtering and name/location sorting. They contain no contact details and cannot be booked. Real gateway errors are not turned into sample success, and no database records are created. Sample detail slugs use the reserved sample- prefix and noindex/nofollow metadata.
+
+## Listing application preview
+
+Visit /list to prepare a vehicle hire, heavy-duty, commercial, logistics or bike-operator application. Six steps provide validation, optional local photos, contact information, editable review and informational fee guidance. Drafts are memory-only. Final submission is disabled; no backend record, upload, payment or sample listing is created.

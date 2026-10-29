@@ -37,3 +37,11 @@ Mobility-specific illustrative photos: marketplace-truck.jpg (Unsplash photo-151
 ## User-approved sample browsing
 
 Unavailable directory pages now expose a labelled local sample catalogue. This is a frontend preview collection, not seeded production data or an HTTP response. Details use reserved sample- slugs and noindex/nofollow; no contact, enquiry, payment or booking is enabled. Real errors retain error states. When backend support is implemented, preserve the boundary and use real results instead of local sample records.
+
+## Listing application preview release — 2026-10-29
+
+No new environment variables, backend routes, storage buckets or migrations are required. The multi-step applications work publicly with both Clerk keys empty. Final submission stays disabled even if Clerk/API settings exist. Never wire a form to a proposed URL solely by setting an environment variable. No draft/local photo data is sent or persisted.
+
+Photo validation follows Auto Hub src/features/seller-media/api/upload.ts: up to eight nonempty JPEG/PNG/WebP files, each at most 12 MB. Only local validation/preview behavior is reused, not the upload function or billing workflows. These foundations are copied locally, with no cross-repository source imports.
+
+Roll back using a normal revert of the application feature commits or the previous independent frontend deployment. Before real activation, implement and test authenticated ownership, media uploads, staff review and publication in the shared backend, settle applicable fees there and verify real identity/session behavior. No live applications or operator dispatch are created by this release.
