@@ -4,6 +4,7 @@ import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 import Menu01Icon from "@hugeicons/core-free-icons/Menu01Icon";
 import ArrowDown01Icon from "@hugeicons/core-free-icons/ArrowDown01Icon";
 import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+import { liveMobility } from "../lib/config";
 import { ecosystem } from "../lib/config";
 import {
   listingAction,
@@ -52,6 +53,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
             >
               {listingAction.label}
             </a>
+            {liveMobility && (
+              <a className="owner-account-link" href="/my-businesses">
+                My businesses
+              </a>
+            )}
             <AccountControl />
             <button
               className="icon-action mobile-menu"
@@ -195,6 +201,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </button>
         </div>
         <nav aria-label="Mobile navigation">
+          {liveMobility && <a href="/my-businesses">My businesses</a>}
+          <a href="/ride">Request a bike or taxi</a>
           <a href={listingAction.href}>
             <strong>{listingAction.label}</strong>
             <span>Prepare an application for future staff review</span>
@@ -237,6 +245,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <nav aria-label={`${productName} footer`}>
             <h3>Explore {productName}</h3>
+            {liveMobility && <a href="/my-businesses">My businesses</a>}
             <a href={listingAction.href}>{listingAction.label} →</a>
             {marketplaceLinks.map((item) => (
               <a key={item.href} href={item.href}>
@@ -257,8 +266,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div>
             <h3>Before you enquire</h3>
             <p>
-              Directories and online requests are being prepared. No booking or
-              payment is taken on this site.
+              Availability and fares are confirmed separately. Trip payments are
+              arranged offline.
             </p>
           </div>
         </div>

@@ -42,17 +42,13 @@ test("heavy-duty filters and pickup draft never submit", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-app-ready", "true");
   await page.getByLabel("Pickup location").fill("Market");
   await page.getByLabel("Destination", { exact: true }).fill("Town");
-  await page.getByLabel("Your name").fill("Test Person");
-  await page.getByLabel("Contact number").fill("+2651234567");
-  await page.getByRole("button", { name: "Review locally" }).click();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByLabel("Contact name", { exact: true }).fill("Test Person");
+  await page.getByLabel("Contact phone", { exact: true }).fill("+2651234567");
+  await page.getByRole("checkbox").check();
   await expect(
-    page.getByRole("heading", { name: "Review your draft" }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Requests unavailable" }),
-  ).toBeDisabled();
-  await expect(
-    page.getByRole("button", { name: "Accept quote unavailable" }),
+    page.getByRole("button", { name: "Submission unavailable", exact: true }),
   ).toBeDisabled();
   expect(requests).toEqual([]);
   expect(
@@ -107,7 +103,7 @@ test("local pickup review is disabled without JavaScript", async ({
   const page = await context.newPage();
   await page.goto("/bike-pickup", { waitUntil: "domcontentloaded" });
   await expect(
-    page.getByRole("button", { name: "Review locally" }),
+    page.getByRole("button", { name: "Continue", exact: true }),
   ).toBeDisabled();
   await context.close();
 });

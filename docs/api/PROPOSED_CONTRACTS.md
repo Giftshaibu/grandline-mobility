@@ -1,4 +1,6 @@
-# Proposed contracts — NOT implemented
+> Historical frontend proposal. Some paths below were superseded. Use LIVE_MOBILITY.md and RIDES.md for implemented APIs and capability gates. Retained as discovery history, not runtime evidence.
+
+# Historical proposed contracts
 
 Status: Blocked. These interfaces are a frontend proposal, not existing server routes. The UI uses a disabled adapter and sends no directory requests. Backend approval and implementation are required before enabling it. The source schema is src/lib/contracts.ts; no backend implementation is included.
 

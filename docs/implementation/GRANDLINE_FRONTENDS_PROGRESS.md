@@ -1,5 +1,21 @@
 # Frontend progress
 
+## Backend roadmap chunks 9–11 — 2026-10-31
+
+Objective 9: real Mobility applications/media/status/moderation/billing/publication, catalogue/details and enquiries. Dependencies: shared backend chunks 1–8. All six offering types are supported, with independent local Services foundations and documented provenance. Default-off VITE_MOBILITY_LIVE uses capability-gated live APIs with no sample fallback. Staff operational approval remains separate from catalogue approval/payment; existing owned businesses can explicitly add Mobility participation.
+
+Objective 10: genuine bike/taxi requests, immediate/scheduled timing, manual quotes, atomic acceptance, separate driver/vehicle approvals, conflicting assignment protection and audited status transitions. Backend migration 20261101080000_ride_requests adds private/RLS tables and PostgreSQL overlap exclusions. RIDE_REQUESTS_ENABLED defaults off. No automatic matching, charging, tracking, fare or ETA generation.
+
+Objective 11: /ride stepped journey, optional Google Maps/Places New adapter, manual addresses/landmarks, explicit geolocation, customer review, saved status/quote acceptance/private assignment, /my-rides and /staff-rides. /bike-pickup redirects to bikes. Visible-page polling pauses hidden/offline and backs off failures. Google-derived coordinates stay transient; frontend/backend strip them before persistence. Native New widget sessions/attribution are retained. Public business policies and restricted live provider configuration remain production prerequisites.
+
+Checks: frontend typecheck/lint/independent production build and 63 unit/component tests pass. Final focused private-draft/billing/ride checks: nine passed, including before-paint scope cleanup, StrictMode replay and late private responses. Initial full desktop/mobile suite: 43 passed, one intended mobile hover skip. Isolated opt-in live public catalogue/empty/error/disabled/map-failure suite: six passed. Final selected default-build desktop/mobile application/ride rerun: eight passed; screenshots inspected. Backend: 155 unit/API tests; full integration checkpoint 64 passed/one separate cleanup skip; final focused rides/publication suite 13 passed, including exclusions/rollback/RLS/published-kind regression. The same proven saved-draft boundary issue was narrowly fixed in Services (60 tests, focused2/2, typecheck/lint/build). Real Clerk/Supabase/Maps/payment journeys remain configuration-gated staging work; fixtures are not external-provider verification.
+
+Rollback: disable affected frontend/server gates and restore prior deployments, preserving application/media/payment/publication/ride/quote/assignment/audit history and additive schema. Backend migrations precede frontend activation. Dedicated live test artifacts are discarded and the local build restored to flags false/API/key blank. Focused commits recorded in Git history; no push/deployment. Chunk 12 notifications/failure visibility and chunk 13 staged rollout remain unfinished. Production demo cleanup remains a separate approval-controlled operation.
+
+## Historical frontend-first checkpoints
+
+Final visual follow-up: compact mobile fallback-map spacing and the before-paint private edit boundary were checked in a fresh default-disabled build; desktop/mobile taxi review2/2 passed, screenshots inspected. Local test browser API/key strings are absent from the final browser assets. No external credentials were used and no source capability was activated for production.
+
 Updated 2026-10-28. Acceptance follows the approved frontend-first plan. Frontend complete does not mean live data or enquiries are enabled. Every absent backend operation remains blocked; see docs/api/PROPOSED_CONTRACTS.md.
 
 | Chunk | Objective | Dependencies | Status | Acceptance/checks | Commit |

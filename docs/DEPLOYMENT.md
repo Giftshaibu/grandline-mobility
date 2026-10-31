@@ -1,5 +1,21 @@
 # Deployment and rollback
 
+## Current deployment handoff — 2026-10-31
+
+Chunks 9–11 are code implemented, default off. Use docs/api/LIVE_MOBILITY.md and RIDES.md for actual contracts. Historical preview-only guidance below is superseded where it describes absent APIs.
+
+VITE_MOBILITY_LIVE and VITE_RIDES_LIVE default false and independently require VITE_API_BASE_URL when enabled. Backend capabilities remain authoritative; live failures never substitute sample listings. Pair Clerk public/server keys and configure exact CORS origins, authorized parties and redirects for each host. Do not assume cross-domain cookies or expose SSR secrets through VITE variables.
+
+Deploy additive migrations/backend first. Migration 20261101080000_ride_requests uses btree_gist; the approved migration role must support that extension. Configure business profiles, Clerk, private Supabase storage and business billing before MOBILITY_APPLICATIONS_ENABLED. Verify owner saves/uploads/staff review, then enable MOBILITY_DISCOVERY_ENABLED after paid publication/enquiry checks. Activate VITE_MOBILITY_LIVE only against that matching backend.
+
+RIDE_REQUESTS_ENABLED requires Mobility discovery. Verify separate operator approval, approved driver/vehicle records, manual quotes, customer acceptance, conflicts and privacy before VITE_RIDES_LIVE. Optional VITE_GOOGLE_MAPS_BROWSER_KEY needs restricted referrers, enabled Maps JavaScript/Places New, billing/quotas and business-approved public policies (RIDES.md). Missing/failing maps and denied geolocation retain typed addresses.
+
+Run typecheck, lint, unit tests, build and Playwright. PLAYWRIGHT_PORT selects an isolated preview, default 4302. The opt-in MOBILITY_LIVE_TEST suite uses a dedicated live build, https://api.example.test and a dummy map key with intercepted public fixtures. Never publish that test artifact; rebuild flags false/API/key blank afterward. No production auth bypass exists.
+
+Chunk 12 notifications and chunk 13 actual Clerk/storage/maps/payment/email staging checks remain production gates. Rollback disables affected frontend/backend flags and restores prior deployments while preserving all business/application/payment/publication/ride/quote/assignment/audit data and additive schema. No automatic push/deployment. Demo cleanup remains separate and approval-controlled.
+
+## Historical foundation handoff
+
 Deploy this repository independently to Vercel with Node 22.12+ and `npm run build`. scripts/build.mjs selects the Vercel Nitro preset; .vercel/output is generated and ignored. CI runs reproducible install, build, typecheck, lint, unit/component tests and desktop/mobile Chromium checks. No Docker or Kubernetes is added to these frontends.
 
 Configure optional VITE_HUB_URL, VITE_SERVICES_URL, VITE_MOBILITY_URL as actual public HTTP(S) destinations. Empty destinations are hidden. VITE_API_BASE_URL points to the existing shared backend when actual integration becomes available; setting it alone does not enable proposed directory endpoints.

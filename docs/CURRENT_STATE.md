@@ -1,39 +1,29 @@
-# Current state — 2026-10-29
+# Current state — 2026-10-31
 
-Branch: main. Listing application checkpoint: 20b639c, tests 60ba26f, page-exit privacy 21f1dbd, followed by focused test/documentation commits.
+Branch: main. Backend roadmap chunks9–11 are implemented locally, default off. No push, deployment, external email or production cleanup. Configured staging remains chunk13.
 
-## Objective and implemented phase
+## Implemented
 
-Frontend-only listing applications are complete at /list. One hire, heavy-duty, commercial, logistics or bike-operator offering per application, with conditional identity/capacity/operator/terms/rate fields. Logistics omits vehicle fields. Bike operator applications remain separate from customer pickup requests and imply no dispatch eligibility.
+VITE_MOBILITY_LIVE connects real public catalogue/details/enquiries, authenticated owner saves/scoped media/submission/status and staff review/quotes/receipt verification/publication. Default false retains labelled samples/local previews. Disabled support, live failures and empty results stay distinct; no sample fallback in live mode.
 
-Both products have six-step validation, error focus, back/edit-and-return behavior, optional local photo previews/removal, monthly fee guidance, reset and disabled final submission. Photos follow Auto Hub's 8-file / 12-MB JPEG/PNG/WebP rules; no upload code is copied. Header, mobile menu, footer and browsing pages link to the applications. Existing marketplace shell, hover menus, labelled sample catalogue and bike pickup preview remain stable.
+/list supports hire, heavy-duty, commercial, logistics, bike-operator and taxi-operator applications. Explicit saves can add Mobility participation to an owned business; suspension is not bypassed. /my-businesses exposes feedback/resume/monthly billing. /staff handles private review/photos and separate verified-payment publication. Operational approval and driver/vehicle registration remain separate from catalogue approval. Owner links use stored publication kind, preserving old live links during draft type edits.
 
-## Boundaries
+/ride has stepped addresses/landmarks, bike/taxi/passengers, immediate/scheduled Malawi timing, contact/review/confirmation and explicit authenticated save/amend. VITE_RIDES_LIVE independently controls real requests. /bike-pickup redirects with bike selected; /my-rides lists genuine owner requests. Saved views show staff quote/expiry, atomic acceptance, private assignment and recorded progress. Journey edits invalidate quotes/acceptance. Polling pauses hidden/offline and backs off failures. No simulated drivers/fares/availability/ETA/GPS tracking.
 
-Drafts live in component memory only; refresh/route exit discards them. Page-hide handling clears drafts for browser back-navigation caches and revokes local photo URLs. No account draft, upload, payment, moderation record, publication or sample listing is created. Final submission remains disabled before/after hydration and without JavaScript. Public preview needs no sign-in; real submission will need authenticated ownership and staff review.
+/staff-rides coordinates availability, manual quotes, approved resources, reservation windows and trip start/completion/cancellation. Backend checks current operational revision, separate resource approvals, type/capacity, accepted fare and conflicts. PostgreSQL exclusions protect reservation windows. Trip payments remain offline and independent of monthly fees.
 
-The earlier staff-created-only shop model is superseded by business applications for staff approval. Real shop/directory/application/enquiry/media/status/staff-review endpoints are still absent. Fee amounts are informational category guidance, not aggregated bills or vehicle-sale price tiers; unmapped categories need staff confirmation. No government identity documents or dispatch onboarding are collected.
+## Maps and privacy
 
-## Verification
+Optional VITE_GOOGLE_MAPS_BROWSER_KEY loads Maps/Places New only after Open Google Maps. Widgets manage sessions/attribution. Typed addresses survive missing keys, SDK/auth failures and denied geolocation. Pins help confirm locations, without routing/fare/ETA promises. Google-derived coordinates stay transient and are stripped by frontend/backend; customer-confirmed addresses/landmarks and permitted place IDs persist. Manual pins/geolocation are customer-supplied. Unsaved drafts are memory-only; exit clears them. Clerk identity/organization changes remount private state.
 
-Typecheck, lint and independent Vercel production build pass. Latest unit/component suite: 38 passed. Full browser suite before final privacy refinement: 33 passed and one mobile hover-only test intentionally skipped. Final targeted desktop/mobile application, keyboard and page-exit checks: 16 passed. This covers form branching, validation, photo previews/removal/URL cleanup, edit-and-return, reset, refresh, no-JavaScript disabling and no upload/API transmission. Desktop/mobile layouts and review screens were inspected. Remote CI and live authenticated/backend journeys were not run.
+## Working set
 
-## Working set / next action
+Business: lib/business-api, mobility-draft, use-saved-application, save-application-photos; components/live-application-actions, business-dashboard, business-billing-panel, staff-applications, operator-controls, resource-registration. Public: lib/directory/contracts and mobility-browser/detail/enquiry. Rides: lib/ride-api, ride-draft, use-ride-polling, google-maps-adapter; components/ride-*, my-rides, staff-rides, staff-ride-assignment and corresponding routes. Tests: *ride*, google-maps-adapter, application-upload, business-workspace; e2e/application, ride and opt-in live-integration. Vite generates ignored routeTree.gen.ts.
 
-Entry route: src/routes/list.tsx. Local foundations: src/components/application-*.tsx; domain form/model: src/components/mobility-application*.tsx and src/lib/mobility-application.ts. Tests: tests/*application* and e2e/application.spec.ts. Generated routeTree.gen.ts is ignored; generate with Vite. See docs/api/PROPOSED_CONTRACTS.md for blocked interfaces and docs/DEPLOYMENT.md for rollout/rollback.
+## Checks and remaining gates
 
-Next backend phase must implement scoped uploads, authenticated ownership, application persistence, review feedback and explicit publication before enabling submission. Roll back via normal feature reverts or previous deployment. Preview: http://127.0.0.1:4302/list. No pushes, deployment, backend changes or production demo cleanup occurred.
+Backend typecheck/build and155 unit/API tests pass. Full integration checkpoint64 passed/1 separate cleanup skip; final focused rides/publication13 passed, including exclusions/rollback/RLS/published-kind regression. Frontend63 unit/component tests pass, plus focused9 private-draft/billing/ride checks. Initial desktop/mobile43 passed/1 intended hover skip; isolated live catalogue/error/map-failure6 passed; final selected default-build browser8 passed with inspected screenshots. Typecheck/lint/build pass. Restored private application/ride edits are disposed before paint on account scope changes; late private responses cannot restore them. The owning Services hook received the same narrow privacy fix with60 tests passing.
 
-### Backend integration checkpoint — 2026-10-29
+Actual cross-domain Clerk, private Supabase, live Google key/billing, receipt verification and production journeys need configured staging. Migration20261101080000_ride_requests ran only on disposable local PostgreSQL (23 total). Deploy/migrate backend before frontend gates. Production Maps needs approved public policies described in api/RIDES.md.
 
-The backend now has default-off business ownership, Services saved application/media/moderation and per-business/product billing core. These APIs have not been activated in this frontend. Public discovery/publication/enquiries, configured authentication/storage/payment operations and controlled staging journeys remain required before live submission. Mobility and ride operations remain unavailable. Canonical backend status: grandline-backend/docs/implementation/BACKEND_INTEGRATION_PROGRESS.md (sibling documentation reference).
-
-## Backend roadmap chunk8 — 2026-10-31
-
-The shared backend now implements default-off Mobility owner saved applications/media/submission/status and staff moderation for all six offering types, including taxi operators. Operational review is a separate audited staff decision bound to an approved bike/taxi application revision; publication never grants dispatch eligibility. Driver/vehicle registration and assignment remain chunk10. The frontend is still the local preview and has not enabled these APIs; chunk9 must add taxi form options, normalized adapters, owner/staff controls and genuine public browsing/enquiries. No automatic push/deploy.
-
-Backend checks:149 unit/API tests, typecheck/build and5 focused disposable PostgreSQL/HTTP scenarios pass. Rollback disables MOBILITY_APPLICATIONS_ENABLED while retaining records/history. Canonical status and contracts are in sibling grandline-backend/docs/implementation; no cross-repository source imports. Frontend behavior is unchanged by this documentation checkpoint.
-
-## Chunk9 backend checkpoint — 2026-10-31
-
-Mobility public catalogue/categories/details, authenticated real enquiries and shared approval/payment-gated staff publication APIs now exist behind independent default-off MOBILITY_DISCOVERY_ENABLED.151 backend unit/API tests and7 targeted Mobility/Services publication integration cases pass. Frontend adapters, taxi application option, saved owner/staff flows and live browser verification remain pending. This app continues to show its explicitly labelled preview and makes no hypothetical integration calls. No production activation, push or deployment.
+Remaining: chunk12 notifications/delivery-failure visibility and chunk13 staged rollout. A receipt does not imply email delivery. Demo cleanup remains separate/approval-controlled. Rollback disables affected gates/restores deployment while retaining all application/payment/quote/assignment/audit history. See api/LIVE_MOBILITY.md, api/RIDES.md and DEPLOYMENT.md.

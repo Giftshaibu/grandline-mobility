@@ -1,5 +1,13 @@
 # Grandline Mobility
 
+## Current implementation — 2026-10-31
+
+Live listing applications/media/owner status/staff review/billing/publication/catalogue/enquiries are implemented behind VITE_MOBILITY_LIVE (default false). Bike/taxi /ride, manual quotes/acceptance, private assignment/status and staff coordination use independent VITE_RIDES_LIVE (default false). /bike-pickup redirects with bike selected. Google Maps/Places New is optional; typed addresses remain usable. Failed live requests never substitute samples or simulated success.
+
+Configured external-provider/staging journeys and production activation remain gated. Notifications are the next roadmap chunk. No automatic push/deployment. Read docs/CURRENT_STATE.md, docs/DEPLOYMENT.md, docs/api/LIVE_MOBILITY.md and docs/api/RIDES.md. Adapted Auto Hub/Services foundations are independent local copies with documented provenance.
+
+## Historical frontend-first release notes
+
 Independent frontend for the Grandline ecosystem. Uses the Auto Hub React/TanStack Start stack and brand assets. No separate backend or cross-repository source imports.
 
 ## Local development
