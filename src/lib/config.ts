@@ -10,9 +10,27 @@ export function publicUrl(value: unknown): string | undefined {
   return url.toString().replace(/\/$/, "");
 }
 export const ecosystem = [
-  { label: "Auto Hub", url: publicUrl(import.meta.env["VITE_HUB_URL"]) },
-  { label: "Services", url: publicUrl(import.meta.env["VITE_SERVICES_URL"]) },
-  { label: "Mobility", url: publicUrl(import.meta.env["VITE_MOBILITY_URL"]) },
+  {
+    label: "Auto Hub",
+    url: publicUrl(
+      import.meta.env["VITE_HUB_URL"]?.trim() ||
+        "https://www.grandlineautomw.com",
+    ),
+  },
+  {
+    label: "Services",
+    url: publicUrl(
+      import.meta.env["VITE_SERVICES_URL"]?.trim() ||
+        "https://services.grandlineautomw.com",
+    ),
+  },
+  {
+    label: "Mobility",
+    url: publicUrl(
+      import.meta.env["VITE_MOBILITY_URL"]?.trim() ||
+        "https://grandline-mobility.vercel.app",
+    ),
+  },
 ];
 export const apiBaseUrl = publicUrl(import.meta.env["VITE_API_BASE_URL"]);
 export const clerkKey =

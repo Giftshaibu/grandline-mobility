@@ -1,5 +1,11 @@
 # Current state — 2026-10-31
 
+## Cross-site navigation — 2026-10-31
+
+Added the Grandline site switcher, homepage discovery sections and reciprocal mobile/footer links. Published defaults: Auto Hub https://www.grandlineautomw.com, Services https://services.grandlineautomw.com, Mobility https://grandline-mobility.vercel.app. URLs were resolved from the published repositories and checked over HTTPS; Services redirects to its custom domain. VITE_HUB_URL/VITE_SERVICES_URL/VITE_MOBILITY_URL still override destinations. Blank settings now use these known public defaults rather than hiding the links. Invalid or credential-bearing URLs are not used as navigation targets. No backend, authentication or product capability gates changed.
+
+The user explicitly requested this update be committed/pushed without tests. No test suite or browser tests were run for this navigation push; preliminary typecheck/lint/build commands had already been started before that instruction, and no further checks were requested. Deployment success is not confirmed. Rollback by reverting the focused navigation commit or overriding the public destination settings.
+
 Branch: main. Backend roadmap chunks9–11 are implemented locally, default off. No push, deployment, external email or production cleanup. Configured staging remains chunk13.
 
 ## Implemented

@@ -1,3 +1,4 @@
+import { EcosystemNavigation } from "./ecosystem-navigation";
 import { useRef } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
@@ -29,6 +30,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <span>Grandline {productName}</span>
         </div>
       </div>
+      <EcosystemNavigation />
       <header className="market-header">
         <div className="wrap site-header">
           <a
@@ -133,15 +135,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </div>
             </details>
           ))}
-          <div className="ecosystem-nav">
-            {links
-              .filter((item) => item.label !== productName)
-              .map((item) => (
-                <a key={item.label} href={item.url}>
-                  {item.label} ↗
-                </a>
-              ))}
-          </div>
         </nav>
       </header>
       <dialog
@@ -256,11 +249,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
           {links.length > 0 && (
             <nav aria-label="Grandline ecosystem">
               <h3>Across Grandline</h3>
-              {links.map((item) => (
-                <a key={item.label} href={item.url}>
-                  {item.label} ↗
-                </a>
-              ))}
+              {links
+                .filter((item) => item.label !== productName)
+                .map((item) => (
+                  <a key={item.label} href={item.url}>
+                    {item.label} ↗
+                  </a>
+                ))}
             </nav>
           )}
           <div>

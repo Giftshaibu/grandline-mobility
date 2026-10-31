@@ -1,3 +1,4 @@
+import { EcosystemDiscovery } from "../components/ecosystem-navigation";
 import { ListingCallout } from "../components/listing-callout";
 import { createFileRoute } from "@tanstack/react-router";
 import { paths } from "../lib/categories";
@@ -45,6 +46,7 @@ function Home() {
           </article>
         </div>
       </section>
+      <EcosystemDiscovery />
       <section className="wrap help-band">
         <div>
           <h2>Plan the journey. Know the details.</h2>

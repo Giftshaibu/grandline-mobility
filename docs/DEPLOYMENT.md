@@ -1,5 +1,7 @@
 # Deployment and rollback
 
+Current navigation defaults are the verified published Auto Hub/Services/Mobility URLs in .env.example. Blank ecosystem variables use those defaults; configured HTTP(S) values override them. This supersedes older blank-destination hiding guidance below.
+
 ## Current deployment handoff — 2026-10-31
 
 Chunks 9–11 are code implemented, default off. Use docs/api/LIVE_MOBILITY.md and RIDES.md for actual contracts. Historical preview-only guidance below is superseded where it describes absent APIs.

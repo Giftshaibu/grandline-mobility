@@ -2047,3 +2047,111 @@ textarea::placeholder {
     font-size: 0.7rem;
   }
 }
+
+/* Shared Grandline navigation; independent local implementation. */
+.ecosystem-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  padding-block: 4px;
+  font-size: 0.75rem;
+}
+.ecosystem-switcher-label {
+  margin-right: 12px;
+  font-weight: 550;
+}
+.ecosystem-switcher > a,
+.ecosystem-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+.ecosystem-current {
+  background: var(--brand);
+  color: var(--brand-foreground);
+}
+.ecosystem-switcher > a:hover {
+  color: var(--brand);
+  background: var(--secondary);
+}
+.ecosystem-switcher > a:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.ecosystem-discovery {
+  border-top: 1px solid var(--border);
+}
+.ecosystem-discovery > p {
+  max-width: 65ch;
+}
+.ecosystem-discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 28px;
+}
+.ecosystem-discovery-grid > article {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+}
+.ecosystem-discovery-grid h3 {
+  font-size: 1.5rem;
+}
+.ecosystem-discovery-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-top: 24px;
+  margin-top: auto;
+}
+.ecosystem-discovery-actions > a:not(.button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.ecosystem-discovery-actions > a:hover {
+  color: var(--brand);
+}
+.ecosystem-discovery-actions > .button:hover {
+  color: var(--brand-foreground);
+}
+@media (max-width: 760px) {
+  .ecosystem-switcher-label {
+    display: none;
+  }
+  .ecosystem-switcher {
+    gap: 2px;
+  }
+  .ecosystem-switcher > a,
+  .ecosystem-current {
+    padding-inline: 10px;
+  }
+  .ecosystem-discovery-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .ecosystem-discovery-grid > article {
+    padding: 22px;
+  }
+  .ecosystem-discovery-grid h3 {
+    font-size: 1.25rem;
+  }
+  .ecosystem-discovery-actions {
+    gap: 14px;
+  }
+}
