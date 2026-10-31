@@ -1,4 +1,16 @@
 export const paths = {
+  "bike-operator": {
+    title: "Bike operators",
+    description:
+      "Browse operator profiles. Request pickup through the ride journey; a profile is not availability.",
+    categories: [["motorcycle", "Motorcycles"]],
+  },
+  "taxi-operator": {
+    title: "Taxi operators",
+    description:
+      "Browse taxi provider profiles. Availability and fares are confirmed by staff for each ride request.",
+    categories: [["taxi", "Taxis"]],
+  },
   hire: {
     title: "Vehicle hire",
     description: "Explore cars and SUVs for personal and business journeys.",

@@ -12,6 +12,7 @@ export function ApplicationWizard({
   renderReview,
   onReset,
   fees,
+  liveActions,
 }: {
   title: string;
   steps: string[];
@@ -20,6 +21,7 @@ export function ApplicationWizard({
   renderReview: (edit: (step: number) => void) => ReactNode;
   onReset: () => void;
   fees: ReactNode;
+  liveActions?: ((review: boolean) => ReactNode) | undefined;
 }) {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<ApplicationErrors>({});
@@ -86,16 +88,21 @@ export function ApplicationWizard({
         <span>Listing application</span>
       </nav>
       <div className="application-intro">
-        <span className="status-tag">Business application preview</span>
+        <span className="status-tag">
+          {liveActions
+            ? "Business application"
+            : "Business application preview"}
+        </span>
         <h1 className="directory-title">{title}</h1>
         <p>
-          Prepare a listing for future staff review. Nothing is submitted,
-          uploaded or published. Submission will require sign-in and staff
-          review when it becomes available.
+          {liveActions
+            ? "Prepare your business profile, save a private draft when ready and submit it for staff review. Approval and verified monthly payment are required before publication."
+            : "Prepare a listing for future staff review. Nothing is submitted, uploaded or published. Submission will require sign-in and staff review when it becomes available."}
         </p>
         <p className="local-preview-note">
-          Drafts stay in memory only. Refreshing or leaving this page loses your
-          information and selected photos.
+          {liveActions
+            ? "Unsaved changes stay in memory. Save explicitly before leaving. Reset clears only this local form, not saved server records."
+            : "Drafts stay in memory only. Refreshing or leaving this page loses your information and selected photos."}
         </p>
       </div>
       <ol className="application-steps" aria-label="Application progress">
@@ -147,7 +154,8 @@ export function ApplicationWizard({
             <fieldset disabled={!ready} className="application-step-fields">
               {step === last ? renderReview(edit) : renderStep(step)}
             </fieldset>
-            {step === last && (
+            {liveActions?.(step === last)}
+            {step === last && !liveActions && (
               <div className="submission-unavailable">
                 <h3>Submission unavailable</h3>
                 <p>

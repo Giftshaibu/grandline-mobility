@@ -14,14 +14,17 @@ export function MobilityCard({ entry }: { entry: Entry }) {
         <p>
           {entry.location} · {entry.provider.name}
         </p>
-        {entry.kind !== "logistics" && entry.price && (
+        {entry.price && (
           <p>
             MK{entry.price.amount.toLocaleString("en-MW")} / {entry.price.unit}
           </p>
         )}
-        {entry.kind === "hire" && entry.passengerCapacity && (
-          <p>{entry.passengerCapacity} passengers</p>
-        )}
+        {(entry.kind === "hire" ||
+          entry.kind === "bike-operator" ||
+          entry.kind === "taxi-operator") &&
+          entry.passengerCapacity && (
+            <p>{entry.passengerCapacity} passengers</p>
+          )}
         {(entry.kind === "commercial" || entry.kind === "heavy-duty") &&
           entry.cargoCapacityKg !== undefined && (
             <p>{entry.cargoCapacityKg.toLocaleString()} kg carrying capacity</p>

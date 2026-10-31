@@ -51,7 +51,7 @@ export function MobilityApplicationFields({ step, draft, update }: Props) {
         </p>
         <p className="muted">
           Bike operators apply as providers here. Customers request pickups
-          through the separate bike-pickup page. An application does not make an
+          through the separate ride page. An application does not make an
           operator eligible for dispatch.
         </p>
       </>
@@ -128,8 +128,14 @@ export function MobilityApplicationFields({ step, draft, update }: Props) {
             )}
             {input("model", "Model")}
             {input("year", "Year", true)}
-            {(draft.type === "hire" || draft.type === "commercial") &&
-              input("passengers", "Passenger capacity", true)}
+            {["hire", "commercial", "bike-operator", "taxi-operator"].includes(
+              draft.type,
+            ) &&
+              input(
+                "passengers",
+                "Passenger capacity",
+                draft.type === "commercial",
+              )}
             {(draft.type === "heavy-duty" || draft.type === "commercial") &&
               input("cargoKg", "Load capacity (kg)", true)}
             {draft.type === "heavy-duty" && (

@@ -1,8 +1,9 @@
+import { apiBaseUrl, liveMobility } from "./config";
 import { z } from "zod";
 import {
   entrySchema,
-  pageSchema,
   categorySchema,
+  pageSchema,
   enquirySchema,
   enquiryReceiptSchema,
   searchString,
@@ -22,7 +23,13 @@ export type Result<T> =
         | "rate-limit"
         | "server";
     };
-export type Kind = "hire" | "heavy-duty" | "commercial" | "logistics";
+export type Kind =
+  | "hire"
+  | "heavy-duty"
+  | "commercial"
+  | "logistics"
+  | "bike-operator"
+  | "taxi-operator";
 type Page = z.infer<typeof pageSchema>;
 type Entry = z.infer<typeof entrySchema>;
 export interface DirectoryGateway {
@@ -48,13 +55,16 @@ export interface DirectoryGateway {
   ): Promise<Result<z.infer<typeof enquiryReceiptSchema>>>;
 }
 // Production deliberately has no HTTP gateway until the backend contracts exist.
-export const directory: DirectoryGateway = {
+const unavailableDirectory: DirectoryGateway = {
   supported: false,
   categories: async () => ({ state: "unavailable" }),
   list: async () => ({ state: "unavailable" }),
   detail: async () => ({ state: "unavailable" }),
   enquire: async () => ({ state: "unavailable" }),
 };
+export const directory = liveMobility
+  ? createHttpGateway(apiBaseUrl!, (...args) => fetch(...args))
+  : unavailableDirectory;
 // Isolated adapter for contract verification. Importing it makes no requests.
 export function createHttpGateway(
   baseUrl: string,
@@ -75,6 +85,38 @@ export function createHttpGateway(
     token?: string,
   ): Promise<Result<T>> {
     try {
+      if (body) enquirySchema.parse(body);
+      const capability = await transport(
+        baseUrl.replace(/\/$/, "") + "/api/v1/capabilities",
+        { ...(signal ? { signal } : {}) },
+      );
+      if (capability.status === 503) return { state: "unavailable" };
+      if (!capability.ok)
+        return {
+          state: "error",
+          reason:
+            capability.status === 401 || capability.status === 403
+              ? "unauthorized"
+              : capability.status === 429
+                ? "rate-limit"
+                : "server",
+        };
+      let capabilityData: unknown;
+      try {
+        capabilityData = await capability.json();
+      } catch {
+        return { state: "error", reason: "invalid-response" };
+      }
+      const flags = z
+        .object({
+          mobility: z.object({
+            discovery: z.boolean(),
+            enquiries: z.boolean(),
+          }),
+        })
+        .parse(capabilityData);
+      if (!flags.mobility.discovery || (body && !flags.mobility.enquiries))
+        return { state: "unavailable" };
       const response = await transport(baseUrl.replace(/\/$/, "") + path, {
         ...(signal ? { signal } : {}),
         ...(body
@@ -88,6 +130,7 @@ export function createHttpGateway(
             }
           : {}),
       });
+      if (response.status === 503) return { state: "unavailable" };
       if (response.status === 404) return { state: "not-found" };
       if (!response.ok)
         return {
@@ -116,17 +159,34 @@ export function createHttpGateway(
   return {
     supported: true,
     categories: (signal) =>
-      request(`${root}/categories`, z.array(categorySchema), signal),
+      request(
+        `${root}/categories`,
+        z
+          .array(
+            z.object({ type: z.string(), categories: z.array(z.string()) }),
+          )
+          .transform((rows) =>
+            [...new Set(rows.flatMap((row) => row.categories))].map((slug) => ({
+              slug,
+              name: slug.replaceAll("-", " "),
+            })),
+          ),
+        signal,
+      ),
     list: (search, kind, signal, cursor) => {
       const query = new URLSearchParams(searchString(search));
-      if (kind) query.set("kind", kind);
+
       if (cursor) query.set("cursor", cursor);
       query.set("limit", "20");
-      return request(`${root}?${query}`, pageSchema, signal);
+      return request(
+        `${root}/catalogue/${kind ?? "hire"}?${query}`,
+        pageSchema,
+        signal,
+      );
     },
     detail: (slug, kind, signal) =>
       request(
-        `${root}/${encodeURIComponent(slug)}${kind ? `?kind=${kind}` : ""}`,
+        `${root}/catalogue/${kind ?? "hire"}/${encodeURIComponent(slug)}`,
         entrySchema,
         signal,
       ),

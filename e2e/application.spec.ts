@@ -1,6 +1,13 @@
 import { test, expect } from "@playwright/test";
 const cases = [
   {
+    type: "taxi-operator",
+    category: "taxi",
+    title: "Test taxi operator",
+    terms: "Hire or transport terms",
+    fee: "needs staff confirmation",
+  },
+  {
     type: "hire",
     category: "car",
     title: "Test hire car",
@@ -86,8 +93,8 @@ for (const item of cases)
         .fill("Test make");
       await page.getByLabel("Model", { exact: true }).fill("Test model");
       await page.getByLabel("Year (optional)").fill("2020");
-      if (item.type === "hire" || item.type === "commercial")
-        await page.getByLabel("Passenger capacity (optional)").fill("5");
+      if (["hire", "commercial", "taxi-operator"].includes(item.type))
+        await page.getByLabel(/Passenger capacity/).fill("5");
       if (item.type === "heavy-duty" || item.type === "commercial")
         await page.getByLabel("Load capacity (kg) (optional)").fill("12000");
       if (item.type === "heavy-duty")

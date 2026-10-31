@@ -46,7 +46,25 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
             )}
             <p>{entry.description}</p>
             <dl className="facts">
-              {entry.kind !== "logistics" && entry.price && (
+              {entry.make && (
+                <>
+                  <dt>Make</dt>
+                  <dd>{entry.make}</dd>
+                </>
+              )}
+              {entry.model && (
+                <>
+                  <dt>Model</dt>
+                  <dd>{entry.model}</dd>
+                </>
+              )}
+              {entry.year && (
+                <>
+                  <dt>Year</dt>
+                  <dd>{entry.year}</dd>
+                </>
+              )}
+              {entry.price && (
                 <>
                   <dt>Price</dt>
                   <dd>
@@ -55,7 +73,10 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
                   </dd>
                 </>
               )}
-              {(entry.kind === "hire" || entry.kind === "commercial") &&
+              {(entry.kind === "hire" ||
+                entry.kind === "commercial" ||
+                entry.kind === "bike-operator" ||
+                entry.kind === "taxi-operator") &&
                 entry.passengerCapacity && (
                   <>
                     <dt>Passengers</dt>
@@ -125,7 +146,7 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
               )}
             </div>
           </article>
-          <Enquiry />
+          <Enquiry listingId={sample ? undefined : entry?.id} />
         </div>
       ) : (
         <>
@@ -143,7 +164,7 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
               void query.refetch();
             }}
           />
-          <Enquiry />
+          <Enquiry listingId={sample ? undefined : entry?.id} />
         </>
       )}
     </section>

@@ -1,5 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
-import { createHttpGateway, directory } from "../src/lib/directory";
+import {
+  createHttpGateway as httpGateway,
+  directory,
+} from "../src/lib/directory";
 import {
   normalizeSearch,
   searchString,
@@ -7,6 +10,16 @@ import {
   entrySchema,
 } from "../src/lib/contracts";
 import { publicUrl } from "../src/lib/config";
+function createHttpGateway(base: string, transport: typeof fetch) {
+  return httpGateway(base, ((url, init) =>
+    String(url).endsWith("/capabilities")
+      ? Promise.resolve(
+          new Response(
+            JSON.stringify({ mobility: { discovery: true, enquiries: true } }),
+          ),
+        )
+      : transport(url, init)) as typeof fetch);
+}
 const base = "https://api.example.test";
 const enquiry = {
   listingId: "12345678-1234-4234-8234-123456789012",
@@ -78,7 +91,7 @@ describe("proposed adapter failure semantics", () => {
       "cursor",
     );
     expect(fetcher.mock.calls[0]?.[0]).toContain("cursor=cursor");
-    expect(fetcher.mock.calls[0]?.[0]).toContain("kind=hire");
+    expect(fetcher.mock.calls[0]?.[0]).toContain("/catalogue/hire?");
   });
   it.each([
     [401, "unauthorized"],
@@ -165,4 +178,19 @@ describe("proposed adapter failure semantics", () => {
       entrySchema.safeParse({ images: ["javascript:alert(1)"] }).success,
     ).toBe(false);
   });
+});
+
+it("makes no catalogue request when the implemented backend capability is disabled", async () => {
+  const transport = vi
+    .fn()
+    .mockResolvedValue(
+      new Response(
+        JSON.stringify({ mobility: { discovery: false, enquiries: false } }),
+      ),
+    );
+  expect(await httpGateway(base, transport).list({})).toEqual({
+    state: "unavailable",
+  });
+  expect(transport).toHaveBeenCalledTimes(1);
+  expect(transport.mock.calls[0]?.[0]).toContain("/capabilities");
 });

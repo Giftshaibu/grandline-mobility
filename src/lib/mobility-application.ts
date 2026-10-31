@@ -6,6 +6,7 @@ export const listingTypes = [
   ["commercial", "Commercial transport"],
   ["logistics", "Logistics"],
   ["bike-operator", "Bike operator"],
+  ["taxi-operator", "Taxi operator"],
 ] as const;
 export type MobilityApplication = {
   type: string;
@@ -64,6 +65,7 @@ export const mobilitySteps = [
 export function offeringCategories(
   type: string,
 ): readonly (readonly [string, string])[] {
+  if (type === "taxi-operator") return [["taxi", "Taxi operator"]];
   if (type === "bike-operator")
     return [["motorcycle", "Motorcycle pickup operator"]];
   const categories = paths[type as keyof typeof paths]?.categories ?? [];
@@ -97,7 +99,16 @@ export function changeListingType(
     contactName: draft.contactName,
     phone: draft.phone,
     email: draft.email,
-    category: type === "bike-operator" ? "motorcycle" : "",
+    category:
+      type === "bike-operator"
+        ? "motorcycle"
+        : type === "taxi-operator"
+          ? "taxi"
+          : "",
+    passengers: type === "bike-operator" ? "1" : "",
+    operator: ["bike-operator", "taxi-operator"].includes(type)
+      ? "included"
+      : "",
     unit: type === "logistics" ? "trip" : "day",
   };
 }
@@ -137,7 +148,11 @@ export function mobilityErrors(draft: MobilityApplication, step: number) {
           Number(draft.year) > new Date().getFullYear() + 1)
       )
         errors["year"] = "Enter a year from 1900 to next year.";
-      if (draft.type === "hire" || draft.type === "commercial")
+      if (
+        ["hire", "commercial", "bike-operator", "taxi-operator"].includes(
+          draft.type,
+        )
+      )
         check(
           "passengers",
           wholeNumber(draft.passengers, "Passenger capacity", true),
@@ -150,6 +165,15 @@ export function mobilityErrors(draft: MobilityApplication, step: number) {
       )
         errors["operator"] = "Choose an operator option.";
     }
+    if (
+      ["hire", "taxi-operator"].includes(draft.type) &&
+      !draft.passengers.trim()
+    )
+      errors["passengers"] = "Passenger capacity is required.";
+    if (Number(draft.passengers) > 100)
+      errors["passengers"] = "Passenger capacity cannot exceed 100.";
+    if (draft.type === "bike-operator" && draft.passengers !== "1")
+      errors["passengers"] = "Bike pickups support one passenger.";
     check(
       "terms",
       required(

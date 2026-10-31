@@ -21,7 +21,7 @@ export const providerSchema = z.object({
   id: z.string().uuid(),
   slug: text,
   name: text,
-  description: text,
+  description: z.string().trim().min(1).max(2000),
   location: text,
   serviceArea: z.array(text).default([]),
   images: z.array(safeUrl).default([]),
@@ -46,6 +46,7 @@ export function searchString(input: DirectorySearch) {
 }
 export const enquirySchema = z.object({
   listingId: z.string().uuid(),
+  requestKey: z.string().uuid().optional(),
   message: z
     .string()
     .trim()
@@ -68,14 +69,27 @@ const mobilityBase = z.object({
   id: z.string().uuid(),
   slug: text,
   title: text,
-  description: text,
+  make: z.string().max(120).optional(),
+  model: z.string().max(120).optional(),
+  year: z.number().int().min(1900).optional(),
+  description: z.string().trim().min(1).max(2000),
   location: text,
   category: text,
   images: z.array(safeUrl).default([]),
   provider: providerSchema,
-  terms: text.optional(),
+  terms: z.string().max(2000).optional(),
 });
 export const entrySchema = z.discriminatedUnion("kind", [
+  mobilityBase.extend({
+    kind: z.literal("bike-operator"),
+    price: moneySchema.optional(),
+    passengerCapacity: z.number().int().min(1).max(1),
+  }),
+  mobilityBase.extend({
+    kind: z.literal("taxi-operator"),
+    price: moneySchema.optional(),
+    passengerCapacity: z.number().int().min(1).max(100),
+  }),
   mobilityBase.extend({
     kind: z.literal("hire"),
     price: moneySchema.optional(),
@@ -97,6 +111,7 @@ export const entrySchema = z.discriminatedUnion("kind", [
   }),
   mobilityBase.extend({
     kind: z.literal("logistics"),
+    price: moneySchema.optional(),
     serviceAreas: z.array(text),
     cargoTypes: z.array(text).optional(),
   }),

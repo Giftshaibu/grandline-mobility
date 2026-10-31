@@ -1,3 +1,4 @@
+import { liveMobility } from "../lib/config";
 import { ListingCallout } from "./listing-callout";
 import { SampleCatalogue } from "./sample-catalogue";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -107,7 +108,7 @@ export function MobilityBrowser({
             "All categories"}{" "}
           · <a href={`/${kind}`}>Clear search</a>
         </p>
-        {result?.state === "unavailable" ? (
+        {result?.state === "unavailable" && !liveMobility ? (
           <SampleCatalogue search={search} kind={kind} />
         ) : (
           <Availability

@@ -1,3 +1,5 @@
+import { liveMobility } from "../lib/config";
+import { LiveApplicationActions } from "./live-application-actions";
 import { useState } from "react";
 import { ApplicationWizard } from "./application-wizard";
 import {
@@ -25,6 +27,7 @@ import { optionalPrice } from "../lib/application-validation";
 export function MobilityApplicationFlow() {
   const [draft, setDraft] = useState(emptyMobilityApplication);
   const photos = useApplicationPhotos();
+  const [epoch, setEpoch] = useState(0);
   const update = (field: keyof MobilityApplication, value: string) => {
     if (field === "type" && value !== draft.type) {
       setDraft((previous) => changeListingType(previous, value));
@@ -37,9 +40,26 @@ export function MobilityApplicationFlow() {
       steps={mobilitySteps}
       validateStep={(step) => mobilityErrors(draft, step)}
       onReset={() => {
+        setEpoch((value) => value + 1);
         setDraft(emptyMobilityApplication());
         photos.setFiles([]);
       }}
+      liveActions={
+        liveMobility
+          ? (review) => (
+              <LiveApplicationActions
+                key={epoch}
+                draft={draft}
+                files={photos.files}
+                review={review}
+                onRestore={(value) => {
+                  setDraft(value);
+                  photos.setFiles([]);
+                }}
+              />
+            )
+          : undefined
+      }
       fees={<ListingFeeGuide rows={mobilityFeeRows(draft)} />}
       renderStep={(step) =>
         step === 3 ? (
@@ -67,7 +87,11 @@ export function MobilityApplicationFlow() {
             ["Model", draft.model],
             ["Year", draft.year],
           );
-          if (draft.type === "hire" || draft.type === "commercial")
+          if (
+            ["hire", "commercial", "bike-operator", "taxi-operator"].includes(
+              draft.type,
+            )
+          )
             offering.push(["Passenger capacity", draft.passengers]);
           if (draft.type === "heavy-duty" || draft.type === "commercial")
             offering.push(["Load capacity (kg)", draft.cargoKg]);
