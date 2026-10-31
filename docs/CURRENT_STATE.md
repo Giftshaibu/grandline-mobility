@@ -27,3 +27,9 @@ Next backend phase must implement scoped uploads, authenticated ownership, appli
 ### Backend integration checkpoint — 2026-10-29
 
 The backend now has default-off business ownership, Services saved application/media/moderation and per-business/product billing core. These APIs have not been activated in this frontend. Public discovery/publication/enquiries, configured authentication/storage/payment operations and controlled staging journeys remain required before live submission. Mobility and ride operations remain unavailable. Canonical backend status: grandline-backend/docs/implementation/BACKEND_INTEGRATION_PROGRESS.md (sibling documentation reference).
+
+## Backend roadmap chunk8 — 2026-10-31
+
+The shared backend now implements default-off Mobility owner saved applications/media/submission/status and staff moderation for all six offering types, including taxi operators. Operational review is a separate audited staff decision bound to an approved bike/taxi application revision; publication never grants dispatch eligibility. Driver/vehicle registration and assignment remain chunk10. The frontend is still the local preview and has not enabled these APIs; chunk9 must add taxi form options, normalized adapters, owner/staff controls and genuine public browsing/enquiries. No automatic push/deploy.
+
+Backend checks:149 unit/API tests, typecheck/build and5 focused disposable PostgreSQL/HTTP scenarios pass. Rollback disables MOBILITY_APPLICATIONS_ENABLED while retaining records/history. Canonical status and contracts are in sibling grandline-backend/docs/implementation; no cross-repository source imports. Frontend behavior is unchanged by this documentation checkpoint.

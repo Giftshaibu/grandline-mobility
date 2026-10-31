@@ -52,3 +52,9 @@ Business applications supersede staff-created-only profiles; staff approval and 
 ## Backend roadmap update — 2026-10-29
 
 Canonical backend register: sibling grandline-backend/docs/implementation/BACKEND_INTEGRATION_PROGRESS.md and ECOSYSTEM_API.md (documentation references only, no source imports). Shared business ownership and Services draft/media/submission APIs are implemented behind default-off server capabilities. Frontend adapters remain unchanged and unavailable. Services moderation and business-product billing core are now implemented/default-off; publication and enquiries are next dependencies; Mobility and ride requests remain blocked. No frontend local preview has become a live submission. Both repositories will update contracts/handoffs when chunk 6/9 activates actual adapters.
+
+## Backend roadmap chunk8 — 2026-10-31
+
+The shared backend now implements default-off Mobility owner saved applications/media/submission/status and staff moderation for all six offering types, including taxi operators. Operational review is a separate audited staff decision bound to an approved bike/taxi application revision; publication never grants dispatch eligibility. Driver/vehicle registration and assignment remain chunk10. The frontend is still the local preview and has not enabled these APIs; chunk9 must add taxi form options, normalized adapters, owner/staff controls and genuine public browsing/enquiries. No automatic push/deploy.
+
+Backend checks:149 unit/API tests, typecheck/build and5 focused disposable PostgreSQL/HTTP scenarios pass. Rollback disables MOBILITY_APPLICATIONS_ENABLED while retaining records/history. Canonical status and contracts are in sibling grandline-backend/docs/implementation; no cross-repository source imports. Frontend behavior is unchanged by this documentation checkpoint.
