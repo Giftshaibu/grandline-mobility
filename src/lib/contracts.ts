@@ -18,6 +18,7 @@ export const contactSchema = z.object({
     .optional(),
 });
 export const providerSchema = z.object({
+  reviewStatus: z.enum(["pending", "approved"]).optional(),
   id: z.string().uuid(),
   slug: text,
   name: text,
@@ -66,6 +67,7 @@ export const moneySchema = z.object({
   unit: z.enum(["day", "week", "month", "trip"]),
 });
 const mobilityBase = z.object({
+  reviewStatus: z.enum(["pending", "approved"]).optional(),
   id: z.string().uuid(),
   slug: text,
   title: text,

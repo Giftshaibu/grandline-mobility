@@ -102,7 +102,7 @@ function StaffQueue({ session }: { session: Session }) {
       );
       setMessage(
         action === "publish"
-          ? "Published after approval and verified-payment checks."
+          ? "Published. Review and payment status are tracked separately."
           : action === "unpublish"
             ? "Profile unpublished."
             : "Review decision saved. Approval does not publish a profile.",

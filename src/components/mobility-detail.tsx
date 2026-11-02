@@ -19,7 +19,7 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
     queryFn: ({ signal }) => directory.detail(slug, kind, signal),
     retry: false,
   });
-  const sample = !directory.supported ? sampleDetail(slug, kind) : undefined;
+  const sample = import.meta.env.DEV && !directory.supported ? sampleDetail(slug, kind) : undefined;
   const result = sample
     ? { state: "ready" as const, data: sample }
     : query.data;
@@ -35,6 +35,7 @@ export function MobilityDetail({ kind, slug }: { kind: Kind; slug: string }) {
       {entry && entry.kind === kind ? (
         <div className="detail-layout">
           <article>
+            {entry.reviewStatus === "pending" && <p><strong>Pending review</strong></p>}
             <h1 className="directory-title">{entry.title}</h1>
             <p>{entry.location}</p>
             {entry.images[0] && (

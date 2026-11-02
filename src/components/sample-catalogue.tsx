@@ -16,6 +16,7 @@ export function SampleCatalogue({
       ? a.location.localeCompare(b.location)
       : a.title.localeCompare(b.title),
   );
+  if (!import.meta.env.DEV) return null;
   return (
     <section aria-label="Sample catalogue">
       <SampleNotice />

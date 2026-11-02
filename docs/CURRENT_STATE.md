@@ -1,35 +1,21 @@
-# Current state — 2026-10-31
+# Current state ? 2026-11-02
 
-## Cross-site navigation — 2026-10-31
+## Objective and phase
 
-Added the Grandline site switcher, homepage discovery sections and reciprocal mobile/footer links. Published defaults: Auto Hub https://www.grandlineautomw.com, Services https://services.grandlineautomw.com, Mobility https://grandline-mobility.vercel.app. URLs were resolved from the published repositories and checked over HTTPS; Services redirects to its custom domain. VITE_HUB_URL/VITE_SERVICES_URL/VITE_MOBILITY_URL still override destinations. Blank settings now use these known public defaults rather than hiding the links. Invalid or credential-bearing URLs are not used as navigation targets. No backend, authentication or product capability gates changed.
+Immediate publication with parallel staff review and seven-day initial payment grace is implemented locally. Production rollout and database cleanup remain outstanding because no database/storage credentials are configured in this workspace. The user requested this release be committed and pushed; deployment success is not verified.
 
-The user explicitly requested this update be committed/pushed without tests. No test suite or browser tests were run for this navigation push; preliminary typecheck/lint/build commands had already been started before that instruction, and no further checks were requested. Deployment success is not confirmed. Rollback by reverting the focused navigation commit or overriding the public destination settings.
+## Completed
 
-Branch: main. Backend roadmap chunks9–11 are implemented locally, default off. No push, deployment, external email or production cleanup. Configured staging remains chunk13.
+Mobility cards and details show Pending review from the live API. Owner billing shows the initial verification deadline. Production sample catalogues and sample detail fallback are suppressed; development previews remain available. Ride operational approval stays separate.
 
-## Implemented
+Backend ownership remains in sibling grandline-backend. Public API additions are optional reviewStatus and private graceEndsAt/expiry information. Existing routes, manual receipt verification, fee schedules, capability flags, design tokens and generated route ownership are preserved. Existing genuine pending submissions are handled by the backend retry/backfill cycle after deployment; rejected records and incomplete drafts stay private.
 
-VITE_MOBILITY_LIVE connects real public catalogue/details/enquiries, authenticated owner saves/scoped media/submission/status and staff review/quotes/receipt verification/publication. Default false retains labelled samples/local previews. Disabled support, live failures and empty results stay distinct; no sample fallback in live mode.
+## Verification
 
-/list supports hire, heavy-duty, commercial, logistics, bike-operator and taxi-operator applications. Explicit saves can add Mobility participation to an owned business; suspension is not bypassed. /my-businesses exposes feedback/resume/monthly billing. /staff handles private review/photos and separate verified-payment publication. Operational approval and driver/vehicle registration remain separate from catalogue approval. Owner links use stored publication kind, preserving old live links during draft type edits.
+Typechecks, lint and production build were checked. Services has 60 passing tests; Mobility has 63. Backend has 160 passing unit tests, including concurrent upload serialization. Auto Hub lint has zero errors and six existing React refresh warnings. Database integration and authenticated owner/staff browser checks require live configuration and were not run.
 
-/ride has stepped addresses/landmarks, bike/taxi/passengers, immediate/scheduled Malawi timing, contact/review/confirmation and explicit authenticated save/amend. VITE_RIDES_LIVE independently controls real requests. /bike-pickup redirects with bike selected; /my-rides lists genuine owner requests. Saved views show staff quote/expiry, atomic acceptance, private assignment and recorded progress. Journey edits invalidate quotes/acceptance. Polling pauses hidden/offline and backs off failures. No simulated drivers/fares/availability/ETA/GPS tracking.
+## Working set and next action
 
-/staff-rides coordinates availability, manual quotes, approved resources, reservation windows and trip start/completion/cancellation. Backend checks current operational revision, separate resource approvals, type/capacity, accepted fare and conflicts. PostgreSQL exclusions protect reservation windows. Trip payments remain offline and independent of monthly fees.
+UI cards/details, submission confirmations, billing panels and staff approval labels own this change. See sibling grandline-backend/IMMEDIATE_PUBLICATION_ROLLOUT.md for exact deployment order, cleanup commands, migration, production prerequisites and limits. Deploy the migration/backend before the frontends. Do not reseed production. Preserve all other completed ecosystem, inventory and ride integrations.
 
-## Maps and privacy
-
-Optional VITE_GOOGLE_MAPS_BROWSER_KEY loads Maps/Places New only after Open Google Maps. Widgets manage sessions/attribution. Typed addresses survive missing keys, SDK/auth failures and denied geolocation. Pins help confirm locations, without routing/fare/ETA promises. Google-derived coordinates stay transient and are stripped by frontend/backend; customer-confirmed addresses/landmarks and permitted place IDs persist. Manual pins/geolocation are customer-supplied. Unsaved drafts are memory-only; exit clears them. Clerk identity/organization changes remount private state.
-
-## Working set
-
-Business: lib/business-api, mobility-draft, use-saved-application, save-application-photos; components/live-application-actions, business-dashboard, business-billing-panel, staff-applications, operator-controls, resource-registration. Public: lib/directory/contracts and mobility-browser/detail/enquiry. Rides: lib/ride-api, ride-draft, use-ride-polling, google-maps-adapter; components/ride-*, my-rides, staff-rides, staff-ride-assignment and corresponding routes. Tests: *ride*, google-maps-adapter, application-upload, business-workspace; e2e/application, ride and opt-in live-integration. Vite generates ignored routeTree.gen.ts.
-
-## Checks and remaining gates
-
-Backend typecheck/build and155 unit/API tests pass. Full integration checkpoint64 passed/1 separate cleanup skip; final focused rides/publication13 passed, including exclusions/rollback/RLS/published-kind regression. Frontend63 unit/component tests pass, plus focused9 private-draft/billing/ride checks. Initial desktop/mobile43 passed/1 intended hover skip; isolated live catalogue/error/map-failure6 passed; final selected default-build browser8 passed with inspected screenshots. Typecheck/lint/build pass. Restored private application/ride edits are disposed before paint on account scope changes; late private responses cannot restore them. The owning Services hook received the same narrow privacy fix with60 tests passing.
-
-Actual cross-domain Clerk, private Supabase, live Google key/billing, receipt verification and production journeys need configured staging. Migration20261101080000_ride_requests ran only on disposable local PostgreSQL (23 total). Deploy/migrate backend before frontend gates. Production Maps needs approved public policies described in api/RIDES.md.
-
-Remaining: chunk12 notifications/delivery-failure visibility and chunk13 staged rollout. A receipt does not imply email delivery. Demo cleanup remains separate/approval-controlled. Rollback disables affected gates/restores deployment while retaining all application/payment/quote/assignment/audit history. See api/LIVE_MOBILITY.md, api/RIDES.md and DEPLOYMENT.md.
+Branch: main. The release commit and push are recorded in Git. Git retains prior handoffs.

@@ -95,10 +95,10 @@ export function BusinessBillingPanel({
             </p>
           ) : (
             <p>
-              The first 30-day period begins when the profile is published after
-              payment verification.
+              Your listing is live while staff review it. Payment must be verified within seven days. The paid 30-day period starts when payment is verified.
             </p>
           )}
+          {data.billing?.graceEndsAt && !data.billing.paidUntil && <p>Payment verification deadline: {new Date(data.billing.graceEndsAt).toLocaleString()}</p>}
           <details>
             <summary>Category fee guidance</summary>
             <ul>

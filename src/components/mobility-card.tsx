@@ -6,6 +6,7 @@ export function MobilityCard({ entry }: { entry: Entry }) {
         <img src={entry.images[0]} alt={entry.title} loading="lazy" />
       )}
       <div className="card-body">
+        {entry.reviewStatus === "pending" && <p className="muted"><strong>Pending review</strong></p>}
         <h3>
           <a href={`/${entry.kind}/${encodeURIComponent(entry.slug)}`}>
             {entry.title}

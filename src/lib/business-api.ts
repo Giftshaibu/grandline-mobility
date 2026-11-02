@@ -109,6 +109,7 @@ export const billingSchema = z.object({
     .object({
       agreedFee: z.number().nullable(),
       quoteVersion: z.number(),
+      graceEndsAt: z.string().nullable().optional(),
       paidUntil: z.string().nullable(),
     })
     .nullable(),
