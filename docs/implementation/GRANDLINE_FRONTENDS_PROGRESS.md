@@ -1,3 +1,7 @@
+# November 4 completion checkpoint
+
+Chunk 12 notification/enquiry inboxes and staff delivery operations are implemented against real backend interfaces, with private account/role scopes and explicit queued-versus-delivered wording. Optional appOrigin routes notifications to the correct product. Notification activation remains default off pending configured provider verification. See CURRENT_STATE.md and sibling grandline-backend/docs/implementation/ECOSYSTEM_NOTIFICATIONS.md. Chunk 13 local PostgreSQL verification is complete; hosted account checks and production cleanup are outstanding.
+
 # Frontend progress
 
 ## Cross-site navigation — 2026-10-31

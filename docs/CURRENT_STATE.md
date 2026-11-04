@@ -1,21 +1,21 @@
-# Current state ? 2026-11-02
+# Current state - 2026-11-04
 
 ## Objective and phase
 
-Immediate publication with parallel staff review and seven-day initial payment grace is implemented locally. Production rollout and database cleanup remain outstanding because no database/storage credentials are configured in this workspace. The user requested this release be committed and pushed; deployment success is not verified.
+Chunk 12 notifications and operational views are implemented. Chunk 13 local database verification is complete; hosted provider/account checks and production seed cleanup remain gated on Supabase, Render and Vercel access. Immediate publication with Pending review and seven-day initial payment grace remains in place.
 
 ## Completed
 
-Mobility cards and details show Pending review from the live API. Owner billing shows the initial verification deadline. Production sample catalogues and sample detail fallback are suppressed; development previews remain available. Ride operational approval stays separate.
+Owner dashboards now show private notifications and received/sent enquiries. Staff dashboards show redacted delivery status and audited, reasoned retries. Notifications use the owning product origin; relative inbox paths and the separate optional appOrigin field preserve existing constraints. No delivery is claimed merely because a message was queued. Draft/account scope reset and existing Clerk role boundaries remain intact. Existing listing/billing UI, production sample suppression, inventory links and ride operational approval are preserved.
 
-Backend ownership remains in sibling grandline-backend. Public API additions are optional reviewStatus and private graceEndsAt/expiry information. Existing routes, manual receipt verification, fee schedules, capability flags, design tokens and generated route ownership are preserved. Existing genuine pending submissions are handled by the backend retry/backfill cycle after deployment; rejected records and incomplete drafts stay private.
+Backend dependencies: migrations 20261104120000_ecosystem_notifications and 20261104130000_notification_product_origins, plus the existing listing-grace migration. ECOSYSTEM_NOTIFICATIONS_ENABLED defaults false until configured staging checks pass. API details and rollback are in sibling grandline-backend/docs/implementation/ECOSYSTEM_NOTIFICATIONS.md.
 
 ## Verification
 
-Typechecks, lint and production build were checked. Services has 60 passing tests; Mobility has 63. Backend has 160 passing unit tests, including concurrent upload serialization. Auto Hub lint has zero errors and six existing React refresh warnings. Database integration and authenticated owner/staff browser checks require live configuration and were not run.
+66 unit/component tests pass, including inbox errors/read handling and reasoned retries. Typecheck, lint and production build pass. Backend unit suite has 163 passing cases; database regression passed 69 cases with dedicated cleanup tests reserved for two separate databases, where both passed. Additional focused notification/ride/privacy/renewal checks passed. All 26 migrations were applied only to disposable local PostgreSQL. Real Clerk/Supabase/Resend/Maps account journeys are not claimed verified.
 
-## Working set and next action
+## Live evidence and next action
 
-UI cards/details, submission confirmations, billing panels and staff approval labels own this change. See sibling grandline-backend/IMMEDIATE_PUBLICATION_ROLLOUT.md for exact deployment order, cleanup commands, migration, production prerequisites and limits. Deploy the migration/backend before the frontends. Do not reseed production. Preserve all other completed ecosystem, inventory and ride integrations.
+The earlier Services/Mobility listing-release commits have successful Vercel statuses. Backend health/readiness return 200. Two known seeded spare-part URLs still return 200; production cleanup is outstanding. Connect the hosting/database accounts, verify deployed versions and live flags, apply guarded cleanup with backups, and complete owner/staff/provider smoke checks before notification activation. No production database records or settings were changed by local verification.
 
-Branch: main. The release commit and push are recorded in Git. Git retains prior handoffs.
+Branch: main. Focused release commits and checkpoints are recorded in Git. Preserve source-owned routing; never edit routeTree.gen.ts manually. Historical work remains in Git.
