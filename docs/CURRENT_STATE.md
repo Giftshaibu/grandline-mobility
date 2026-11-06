@@ -1,5 +1,7 @@
 # Current state - 2026-11-06
 
+Latest correction: shared UI 0.6.1 remembers welcome dismissal/selection across navigation and refresh for the browsing session. Desktop/tablet listing action is visible again. Working set: shared package/archive, `src/styles.css`, `tests/shared-welcome.test.tsx`, `e2e/welcome-session.spec.ts`. Six owning component cases, typecheck/lint/build pass; browser checks cover choice/navigation/refresh and listing entry access. Production submission switches remain off while the user connects Render/Vercel. See sibling Auto `docs/WELCOME_AND_LISTING_FIX.md`. Branch: `codex/unified-live-submissions`; see Git HEAD for checkpoint.
+
 ## Binding implementation checkpoint
 
 Phase: local implementation verified for recorded checks; hosted activation/live acceptance pending. Installs identical shared 0.6.0 archive. Shared header/account/welcome/cards/fields/listing layout/review replace the differing presentation. Dashboard resume restores selected owner applications; saved photos have authorized previews. Ride controls retain pickup, destination, quotes and assignment; dispatch eligibility remains separate. Existing stylesheet edits were retained.

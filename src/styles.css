@@ -2102,6 +2102,10 @@ textarea::placeholder {
 .grandline-header-row .product-nav { width: auto; max-width: none; min-width: 0; flex: 1; border: 0; }
 .grandline-header-row .header-actions { flex-shrink: 0; }
 .grandline-header-row .grandline-button { white-space: nowrap; }
+.grandline-header-row .header-actions .header-listing-action { display: inline-flex; }
+@media(max-width:760px) {
+  .grandline-header-row .header-actions .header-listing-action { display: none; }
+}
 .grandline-listing-content .application-step-heading > p { display: none; }
 .grandline-listing-content .application-actions { display: grid; grid-template-columns: 1fr; gap: .5rem; }
 .grandline-listing-content .application-actions > button:first-child { grid-row: 2; }
