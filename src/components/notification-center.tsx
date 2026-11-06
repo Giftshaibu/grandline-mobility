@@ -81,7 +81,7 @@ export function NotificationInbox({ session }: { session: Session }) {
     }
   }
   return (
-    <section
+    <section id="notifications"
       aria-label="Account notifications"
       className="application-review-service"
     >

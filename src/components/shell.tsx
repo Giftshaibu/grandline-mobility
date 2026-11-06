@@ -14,13 +14,14 @@ import {
   productName,
   searchDestination,
 } from "../lib/marketplace";
-import { AccountControl } from "./auth";
+import { AccountControl, ProductWelcome } from "./auth";
 export function Shell({ children }: { children: React.ReactNode }) {
   const search = useRef<HTMLDialogElement>(null);
   const menu = useRef<HTMLDialogElement>(null);
   const links = ecosystem.filter((item) => item.url);
   return (
     <>
+      <ProductWelcome />
       <a className="skip" href="#main-content">
         Skip to content
       </a>

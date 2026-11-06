@@ -1,3 +1,4 @@
+import { WelcomeDialog } from "@grandline/ui";
 import {
   ClerkProvider,
   SignInButton,
@@ -14,7 +15,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signUpFallbackRedirectUrl="/"
       appearance={{
         options: { logoImageUrl: "/logo-full.svg", logoLinkUrl: "/" },
-        variables: { colorPrimary: "#ee4036", borderRadius: "0.375rem" },
+        variables: { colorPrimary: "#ee4036", colorPrimaryForeground: "#faf7f8", colorForeground: "#29282c", colorMuted: "#f4f2f0", colorMutedForeground: "#716f75", colorBackground: "#ffffff", colorInput: "#ffffff", colorInputForeground: "#29282c", colorBorder: "#e4e1e1", colorRing: "#ee4036", borderRadius: "0.375rem", fontFamily: '"Inter", ui-sans-serif, system-ui, sans-serif' },
+        elements: { cardBox: "shadow-xl", card: "border border-[#e4e1e1]", formButtonPrimary: "font-semibold hover:opacity-90", userButtonPopoverCard: "border border-[#e4e1e1] shadow-xl" },
       }}
     >
       {children}
@@ -27,7 +29,7 @@ function ConfiguredAccount() {
   const { isLoaded, isSignedIn } = useAuth();
   if (!isLoaded) return <span className="muted">Loading account…</span>;
   return isSignedIn ? (
-    <UserButton />
+    <UserButton appearance={{ elements: { avatarBox: "size-9", userButtonTrigger: "rounded-md p-1 focus-visible:outline-2 focus-visible:outline-[#ee4036]" } }}><UserButton.MenuItems><UserButton.Link href="/my-businesses" label="My Grandline" labelIcon={<span aria-hidden="true">◉</span>} /><UserButton.Link href="/my-businesses#notifications" label="Notifications" labelIcon={<span aria-hidden="true">✉</span>} /></UserButton.MenuItems></UserButton>
   ) : (
     <SignInButton mode="modal">
       <button className="button secondary">Sign in</button>
@@ -36,4 +38,16 @@ function ConfiguredAccount() {
 }
 export function AccountControl() {
   return clerkKey ? <ConfiguredAccount /> : null;
+}
+
+const welcomeOptions = [
+  { label: 'Find transport', description: 'Browse hire, bikes and taxis', href: '/' },
+  { label: 'List transport', description: 'Start a transport listing', href: '/list' }
+];
+function ConfiguredWelcome() {
+  const { isLoaded, isSignedIn } = useAuth();
+  return <WelcomeDialog product="mobility" title="What brings you to Grandline Mobility?" description="Find transport or list an offering for customers across Malawi." options={welcomeOptions} ready={isLoaded} signedIn={!!isSignedIn} />;
+}
+export function ProductWelcome() {
+  return clerkKey ? <ConfiguredWelcome /> : <WelcomeDialog product="mobility" title="What brings you to Grandline Mobility?" description="Find transport or list an offering for customers across Malawi." options={welcomeOptions} />;
 }

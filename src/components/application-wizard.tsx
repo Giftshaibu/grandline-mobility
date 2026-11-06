@@ -1,3 +1,4 @@
+import { ListingProgress } from "@grandline/ui";
 import { flushSync } from "react-dom";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
@@ -80,6 +81,7 @@ export function ApplicationWizard({
     setEditing(true);
     move(next);
   };
+  if (!liveActions) return <section className="wrap section application-page"><div className="application-intro"><h1 className="directory-title">{title}</h1><p>New listings are temporarily unavailable. Please check back soon.</p><a className="button secondary" href="/">Browse listings</a></div></section>;
   return (
     <section className="wrap section application-page">
       <nav className="breadcrumb" aria-label="Breadcrumb">
@@ -89,34 +91,18 @@ export function ApplicationWizard({
       </nav>
       <div className="application-intro">
         <span className="status-tag">
-          {liveActions
-            ? "Business application"
-            : "Business application preview"}
+          {"Business application"}
         </span>
         <h1 className="directory-title">{title}</h1>
         <p>
-          {liveActions
-            ? "Prepare your business profile, save a private draft when ready and submit it for staff review. Approval and verified monthly payment are required before publication."
-            : "Prepare a listing for future staff review. Nothing is submitted, uploaded or published. Submission will require sign-in and staff review when it becomes available."}
+          {"Prepare your business profile, save a private draft when ready and submit it for staff review. Your listing goes live after submission while staff review it; payment has a seven-day verification period."}
         </p>
         <p className="local-preview-note">
-          {liveActions
-            ? "Unsaved changes stay in memory. Save explicitly before leaving. Reset clears only this local form, not saved server records."
-            : "Drafts stay in memory only. Refreshing or leaving this page loses your information and selected photos."}
+          {"Unsaved changes stay in memory. Save explicitly before leaving. Reset clears only this local form, not saved server records."}
         </p>
       </div>
-      <ol className="application-steps" aria-label="Application progress">
-        {steps.map((label, index) => (
-          <li
-            key={label}
-            aria-current={step === index ? "step" : undefined}
-            className={index < step ? "completed" : ""}
-          >
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <span>{label}</span>
-          </li>
-        ))}
-      </ol>
+      <div className="grandline-application-shell">
+        <ListingProgress steps={steps} current={step} onSelect={(index) => { if (index <= step) move(index); }} />
       <div className="application-layout">
         <ApplicationValidation.Provider
           value={{
@@ -155,18 +141,6 @@ export function ApplicationWizard({
               {step === last ? renderReview(edit) : renderStep(step)}
             </fieldset>
             {liveActions?.(step === last)}
-            {step === last && !liveActions && (
-              <div className="submission-unavailable">
-                <h3>Submission unavailable</h3>
-                <p>
-                  This application has not been sent. The listing backend, media
-                  uploads and staff review are not connected yet.
-                </p>
-                <button className="button" type="button" disabled>
-                  Submission unavailable
-                </button>
-              </div>
-            )}
             <div className="application-actions">
               <button
                 className="button secondary"
@@ -200,13 +174,13 @@ export function ApplicationWizard({
             </div>
             <noscript>
               <p>
-                JavaScript is required for this local preview. Submission is
-                unavailable.
+                JavaScript is required to complete this application.
               </p>
             </noscript>
           </form>
         </ApplicationValidation.Provider>
         {fees}
+      </div>
       </div>
     </section>
   );

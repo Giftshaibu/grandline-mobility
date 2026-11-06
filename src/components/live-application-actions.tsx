@@ -27,7 +27,6 @@ function ApplicationActions({
     businessId,
     setBusinessId,
     selected,
-    setSelected,
     publishPhone,
     setPublishPhone,
     busy,
@@ -81,21 +80,7 @@ function ApplicationActions({
         >
           Load my businesses
         </button>
-        <label>
-          Saved application ID
-          <input
-            value={selected}
-            onChange={(event) => setSelected(event.target.value)}
-            placeholder="Copy the ID from My businesses"
-          />
-        </label>
-        <button
-          type="button"
-          className="button secondary"
-          onClick={() => void execute(resume)}
-        >
-          Resume saved application
-        </button>
+        {selected && <button type="button" className="button secondary" onClick={() => void execute(resume)}>Resume selected application</button>}
         <label>
           <input
             type="checkbox"
@@ -111,7 +96,6 @@ function ApplicationActions({
               Status: <strong>{application.status.replaceAll("_", " ")}</strong>{" "}
               · Revision {application.version}
             </p>
-            <p>Application ID: {application.id}</p>
             {application.events
               .filter((item) => item.reason)
               .slice(0, 3)

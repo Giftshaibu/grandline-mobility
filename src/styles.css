@@ -474,8 +474,8 @@ footer .muted {
 }
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 .entry-card {
   border: 1px solid var(--border);
@@ -484,11 +484,11 @@ footer .muted {
 }
 .entry-card img {
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 16/10;
   object-fit: cover;
 }
 .entry-card .card-body {
-  padding: 22px;
+  padding: 12px;
 }
 .entry-card h3 a {
   text-decoration: none;
@@ -2155,3 +2155,11 @@ textarea::placeholder {
     gap: 14px;
   }
 }
+
+@media (min-width: 640px) {.cards { gap: 16px; }}
+@media (min-width: 1280px) {.cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }}
+
+.grandline-application-shell{display:grid;gap:2rem;align-items:start}
+@media(min-width:1024px){.grandline-application-shell{grid-template-columns:14rem minmax(0,1fr);gap:3rem}}
+
+@media(min-width:640px){.entry-card .card-body{padding:16px}}

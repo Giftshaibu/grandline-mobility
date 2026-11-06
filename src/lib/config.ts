@@ -28,7 +28,7 @@ export const ecosystem = [
     label: "Mobility",
     url: publicUrl(
       import.meta.env["VITE_MOBILITY_URL"]?.trim() ||
-        "https://grandline-mobility.vercel.app",
+        "https://mobility.grandlineautomw.com",
     ),
   },
 ];
