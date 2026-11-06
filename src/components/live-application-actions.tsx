@@ -47,58 +47,75 @@ function ApplicationActions({
   } = useSavedApplication(draft, files, onRestore, session);
   return (
     <section
-      className="submission-unavailable"
+      className="draft-controls"
       aria-label="Save and submit application"
     >
-      {application?.status === "pending" ? (
-        <div className="grandline-submission-confirmation" role="status">
-          <h3>Listing submitted</h3>
-          <p><strong>Pending review</strong></p>
-          <p>{application.publication?.published ? "Your listing is published while staff review it." : "Your application is saved. Check My businesses for publication status and any required changes."} Payment has a seven-day verification period for eligible published listings.</p>
-          <a href="/my-businesses">View your listing and payment status</a>
-        </div>
-      ) : <h3>Your business application</h3>}
-      <p>
-        Only an explicit save uploads these details and photos. Saving creates a
-        private draft; submission requests staff review. Choosing an existing
-        business and saving adds Mobility participation if needed.
-      </p>
-      <p>
-        <a href="/my-businesses">My businesses and payment status</a>
+      <div className="draft-heading">
+        {application?.status === "pending" ? (
+          <div className="grandline-submission-confirmation" role="status">
+            <h3>Listing submitted</h3>
+            <p>
+              <strong>Pending review</strong>
+            </p>
+            <p>
+              {application.publication?.published
+                ? "Your listing is published while staff review it."
+                : "Your application is saved. Check My businesses for publication status and any required changes."}{" "}
+              Payment has a seven-day verification period for eligible published
+              listings.
+            </p>
+            <a href="/my-businesses">View your listing and payment status</a>
+          </div>
+        ) : (
+          <h3>Save your progress</h3>
+        )}
+        <a href="/my-businesses">My businesses</a>
+      </div>
+      <p className="draft-help">
+        Save a private draft with your photos. Submit it from Review.
       </p>
       <fieldset disabled={!ready || busy}>
-        <label>
-          Business
-          <select
-            value={businessId}
-            disabled={!!application}
-            onChange={(event) => setBusinessId(event.target.value)}
-          >
-            <option value="">Create a new business on save</option>
-            {businesses.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => void execute(load)}
-        >
-          Load my businesses
-        </Button>
-        {selected && !application && <Button variant="secondary" onClick={() => void execute(resume)}>Retry loading saved application</Button>}
-        <label>
-          <input
-            type="checkbox"
-            checked={publishPhone}
-            disabled={!editable}
-            onChange={(event) => setPublishPhone(event.target.checked)}
-          />
-          Allow staff to publish this contact phone on the approved profile
-        </label>
+        <details className="draft-settings">
+          <summary>Business &amp; contact settings</summary>
+          <div className="draft-business-row">
+            <label className="draft-business-field">
+              Business
+              <select
+                value={businessId}
+                disabled={!!application}
+                onChange={(event) => setBusinessId(event.target.value)}
+              >
+                <option value="">Create a new business on save</option>
+                {businesses.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => void execute(load)}
+            >
+              Load my businesses
+            </Button>
+          </div>
+          {selected && !application && (
+            <Button variant="secondary" onClick={() => void execute(resume)}>
+              Retry loading saved application
+            </Button>
+          )}
+          <label className="draft-phone-consent">
+            <input
+              type="checkbox"
+              checked={publishPhone}
+              disabled={!editable}
+              onChange={(event) => setPublishPhone(event.target.checked)}
+            />
+            Show my contact phone on the public profile
+          </label>
+        </details>
         {application && (
           <>
             <p>
@@ -115,7 +132,15 @@ function ApplicationActions({
               ))}
             {application.media.map((item) => (
               <div key={item.id}>
-                {item.status === "uploaded" && <SavedApplicationPhoto product="mobility" applicationId={application.id} mediaId={item.id} filename={item.originalFilename} session={session} />}
+                {item.status === "uploaded" && (
+                  <SavedApplicationPhoto
+                    product="mobility"
+                    applicationId={application.id}
+                    mediaId={item.id}
+                    filename={item.originalFilename}
+                    session={session}
+                  />
+                )}
                 <span>
                   {item.originalFilename} · {item.status}
                 </span>{" "}
@@ -132,7 +157,7 @@ function ApplicationActions({
             ))}
           </>
         )}
-        <div className="application-actions">
+        <div className="draft-actions">
           <Button
             type="button"
             variant="secondary"

@@ -2098,6 +2098,22 @@ textarea::placeholder {
 
 .grandline-saved-photo img{width:100%;max-width:20rem;aspect-ratio:16/10;object-fit:cover;border-radius:.25rem}
 
+.draft-controls { margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--border); border-radius: .25rem; background: var(--background); }
+.draft-heading { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
+.draft-heading h3 { margin: 0; font-size: 1rem; line-height: 1.5; }
+.draft-heading > a { flex-shrink: 0; font-size: .75rem; text-decoration: underline; text-underline-offset: .2em; }
+.draft-controls .draft-help { margin: .25rem 0 .75rem; font-size: .8125rem; line-height: 1.5; color: var(--muted-foreground); }
+.draft-controls > fieldset { display: block; min-width: 0; margin: 0; padding: 0; border: 0; }
+.draft-settings > summary { width: fit-content; cursor: pointer; font-size: .875rem; font-weight: 500; }
+.draft-business-row { display: flex; align-items: end; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.draft-business-field { flex: 1 1 15rem; min-width: 0; font-size: .8125rem; }
+.draft-business-field > select { width: 100%; margin-top: .25rem; }
+.draft-business-row > button { flex: 0 0 auto; }
+.draft-controls .draft-phone-consent { display: flex; align-items: start; gap: .5rem; margin-top: .75rem; font-size: .8125rem; line-height: 1.5; cursor: pointer; }
+.draft-controls .draft-phone-consent > input[type="checkbox"] { flex: 0 0 1.125rem; width: 1.125rem; height: 1.125rem; min-height: 0; margin: .0625rem 0 0; padding: 0; accent-color: var(--brand); }
+.draft-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
+.draft-controls > [role="status"], .draft-controls > [role="alert"] { margin: .625rem 0 0; font-size: .8125rem; line-height: 1.5; }
+
 /* Override the former full-width navigation and wizard footer at the shared boundary. */
 .grandline-header-row .product-nav { width: auto; max-width: none; min-width: 0; flex: 1; border: 0; }
 .grandline-header-row .header-actions { flex-shrink: 0; }
