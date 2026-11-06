@@ -1,5 +1,7 @@
 # Current state - 2026-11-06
 
+Production activation: backend applications/billing/discovery/rides are enabled; production Mobility and ride flags are enabled and redeployed at `dpl_DPZCg8ZCJqsd6uogzehCwuVSgfEr` from `350358e`. The live listing page now shows its flow; all six types advance to details in desktop/mobile checks. All six public catalogue routes return valid empty pages; guests receive 401 for owned application/ride APIs. Complete authenticated owner upload/submission/moderation and dispatch remain unverified. See sibling Auto `docs/HOSTED_ACTIVATION.md`. Earlier access/disabled notes below are historical.
+
 Latest correction: shared UI 0.6.1 remembers welcome dismissal/selection across navigation and refresh for the browsing session. Desktop/tablet listing action is visible again. Working set: shared package/archive, `src/styles.css`, `tests/shared-welcome.test.tsx`, `e2e/welcome-session.spec.ts`. Six owning component cases, typecheck/lint/build pass; browser checks cover choice/navigation/refresh and listing entry access. Production submission switches remain off while the user connects Render/Vercel. See sibling Auto `docs/WELCOME_AND_LISTING_FIX.md`. Branch: `codex/unified-live-submissions`; see Git HEAD for checkpoint.
 
 ## Binding implementation checkpoint
