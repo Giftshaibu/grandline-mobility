@@ -46,6 +46,7 @@ export function useSavedApplication(
   );
   const [businessId, setBusinessId] = useState("");
   const [selected, setSelected] = useState("");
+  const requestedResume = useRef(false);
   const [publishPhone, setPublishPhone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [ready, setReady] = useState(false);
@@ -60,11 +61,17 @@ export function useSavedApplication(
     if (id && /^[0-9a-f-]{36}$/i.test(id)) setSelected(id);
   }, []);
   useEffect(() => {
+    if (!selected || requestedResume.current || new URLSearchParams(window.location.search).get("application") !== selected) return;
+    requestedResume.current = true;
+    void execute(resume);
+  }, [selected]);
+  useEffect(() => {
     if (failed) feedback.current?.focus();
   }, [failed, message]);
   const editable =
     !application || ["draft", "changes_requested"].includes(application.status);
   async function execute(work: (token: string) => Promise<void>) {
+    if (!active.current) return;
     setBusy(true);
     setFailed(false);
     setMessage("");
@@ -73,12 +80,13 @@ export function useSavedApplication(
       if (!token) throw new Error("Your session expired. Sign in again.");
       await work(token);
     } catch (error) {
+      if (!active.current) return;
       setFailed(true);
       setMessage(
         error instanceof Error ? error.message : "The request failed.",
       );
     } finally {
-      setBusy(false);
+      if (active.current) setBusy(false);
     }
   }
   async function load(token: string) {
@@ -243,7 +251,7 @@ export function useSavedApplication(
     ).application;
     setApplication(submitted);
     setMessage(
-      "Application submitted for staff review. Approval and verified monthly payment are required before publication.",
+      "Application submitted. Eligible listings are published while staff review them. Payment has a seven-day verification period. Check My businesses for your publication and payment status.",
     );
   }
 

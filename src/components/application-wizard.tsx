@@ -1,4 +1,4 @@
-import { ListingProgress } from "@grandline/ui";
+import { ListingLayout, Button } from "@grandline/ui";
 import { flushSync } from "react-dom";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
@@ -101,8 +101,7 @@ export function ApplicationWizard({
           {"Unsaved changes stay in memory. Save explicitly before leaving. Reset clears only this local form, not saved server records."}
         </p>
       </div>
-      <div className="grandline-application-shell">
-        <ListingProgress steps={steps} current={step} onSelect={(index) => { if (index <= step) move(index); }} />
+      <ListingLayout steps={steps} current={step} onSelect={move}>
       <div className="application-layout">
         <ApplicationValidation.Provider
           value={{
@@ -142,25 +141,25 @@ export function ApplicationWizard({
             </fieldset>
             {liveActions?.(step === last)}
             <div className="application-actions">
-              <button
-                className="button secondary"
+              <Button
+                variant="secondary"
                 type="button"
                 disabled={!ready || step === 0}
                 onClick={() => move(step - 1)}
               >
                 Back
-              </button>
+              </Button>
               {step < last && (
-                <button className="button" type="submit" disabled={!ready}>
+                <Button type="submit" disabled={!ready}>
                   {editing
                     ? "Save changes & return to review"
                     : step === last - 1
                       ? "Review application"
                       : "Continue"}
-                </button>
+                </Button>
               )}
-              <button
-                className="text-action reset-draft"
+              <Button
+                variant="text" className="reset-draft"
                 type="button"
                 disabled={!ready}
                 onClick={() => {
@@ -170,7 +169,7 @@ export function ApplicationWizard({
                 }}
               >
                 Reset draft
-              </button>
+              </Button>
             </div>
             <noscript>
               <p>
@@ -179,9 +178,9 @@ export function ApplicationWizard({
             </noscript>
           </form>
         </ApplicationValidation.Provider>
-        {fees}
+        {step === last && fees}
       </div>
-      </div>
+      </ListingLayout>
     </section>
   );
 }

@@ -1,3 +1,5 @@
+import { SavedApplicationPhoto } from "./saved-application-photo";
+import { Button } from "@grandline/ui";
 import { AuthSession, type Session } from "./auth-session";
 import type { MobilityApplication } from "../lib/mobility-application";
 import { useSavedApplication } from "../lib/use-saved-application";
@@ -48,7 +50,14 @@ function ApplicationActions({
       className="submission-unavailable"
       aria-label="Save and submit application"
     >
-      <h3>Your business application</h3>
+      {application?.status === "pending" ? (
+        <div className="grandline-submission-confirmation" role="status">
+          <h3>Listing submitted</h3>
+          <p><strong>Pending review</strong></p>
+          <p>{application.publication?.published ? "Your listing is published while staff review it." : "Your application is saved. Check My businesses for publication status and any required changes."} Payment has a seven-day verification period for eligible published listings.</p>
+          <a href="/my-businesses">View your listing and payment status</a>
+        </div>
+      ) : <h3>Your business application</h3>}
       <p>
         Only an explicit save uploads these details and photos. Saving creates a
         private draft; submission requests staff review. Choosing an existing
@@ -73,14 +82,14 @@ function ApplicationActions({
             ))}
           </select>
         </label>
-        <button
+        <Button
           type="button"
-          className="button secondary"
+          variant="secondary"
           onClick={() => void execute(load)}
         >
           Load my businesses
-        </button>
-        {selected && <button type="button" className="button secondary" onClick={() => void execute(resume)}>Resume selected application</button>}
+        </Button>
+        {selected && !application && <Button variant="secondary" onClick={() => void execute(resume)}>Retry loading saved application</Button>}
         <label>
           <input
             type="checkbox"
@@ -106,10 +115,11 @@ function ApplicationActions({
               ))}
             {application.media.map((item) => (
               <div key={item.id}>
+                {item.status === "uploaded" && <SavedApplicationPhoto product="mobility" applicationId={application.id} mediaId={item.id} filename={item.originalFilename} session={session} />}
                 <span>
                   {item.originalFilename} · {item.status}
                 </span>{" "}
-                <button
+                <Button
                   type="button"
                   disabled={!editable}
                   onClick={() =>
@@ -117,15 +127,15 @@ function ApplicationActions({
                   }
                 >
                   Remove saved photo
-                </button>
+                </Button>
               </div>
             ))}
           </>
         )}
         <div className="application-actions">
-          <button
+          <Button
             type="button"
-            className="button secondary"
+            variant="secondary"
             disabled={!editable}
             onClick={() =>
               void execute(async (token) => {
@@ -134,26 +144,26 @@ function ApplicationActions({
             }
           >
             Save draft and photos
-          </button>
+          </Button>
           {review && (
-            <button
+            <Button
               type="button"
-              className="button"
+
               disabled={!editable}
               onClick={() => void execute(submit)}
             >
               Submit for staff review
-            </button>
+            </Button>
           )}
           {application &&
             ["approved", "rejected"].includes(application.status) && (
-              <button
+              <Button
                 type="button"
-                className="button secondary"
+                variant="secondary"
                 onClick={() => void execute(startRevision)}
               >
                 Start a new revision
-              </button>
+              </Button>
             )}
         </div>
       </fieldset>

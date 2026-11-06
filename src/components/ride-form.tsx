@@ -1,3 +1,4 @@
+import { ListingProgress, Button, Field } from "@grandline/ui";
 import { LocationButton } from "./ride-location-button";
 import { useEffect, useRef, useState } from "react";
 import { locationSchema, malawiTime, type Ride } from "../lib/ride-api";
@@ -67,12 +68,6 @@ export function RideForm({
       requestAnimationFrame(() => heading.current?.focus());
     }
   };
-  const fieldError = (name: string) =>
-    errors[name] ? (
-      <p className="field-error" role="alert">
-        {errors[name]}
-      </p>
-    ) : null;
   return (
     <form
       ref={root}
@@ -83,13 +78,7 @@ export function RideForm({
         if (ready && step < 2) advance();
       }}
     >
-      <ol className="ride-steps" aria-label="Ride request progress">
-        {["Journey", "Ride & time", "Review"].map((label, index) => (
-          <li key={label} aria-current={step === index ? "step" : undefined}>
-            {index + 1}. {label}
-          </li>
-        ))}
-      </ol>
+      <ListingProgress steps={["Journey", "Ride & time", "Review"]} current={step} onSelect={index => { setStep(index); setErrors({}); }} />
       <h1 ref={heading} tabIndex={-1}>
         {
           ["Where are you going?", "Choose your ride", "Review your journey"][
@@ -109,9 +98,8 @@ export function RideForm({
           <>
             {(["pickup", "destination"] as const).map((field) => (
               <div className="ride-location" key={field}>
-                <label>
-                  {field === "pickup" ? "Pickup location" : "Destination"}
-                  <input
+                <Field id={`ride-${field}`} label={<>{field === "pickup" ? "Pickup location" : "Destination"}</>} error={errors[field]}>
+<input
                     name={field}
                     autoComplete="off"
                     maxLength={300}
@@ -127,13 +115,11 @@ export function RideForm({
                       })
                     }
                   />
-                </label>
-                {fieldError(field)}
-                <label>
-                  {field === "pickup"
+</Field>
+                <Field id={`ride-${field}-landmark`} label={<>{field === "pickup"
                     ? "Pickup landmark (optional)"
-                    : "Destination landmark (optional)"}
-                  <input
+                    : "Destination landmark (optional)"}</>} error={undefined}>
+<input
                     maxLength={300}
                     value={draft[field].landmark}
                     onChange={(event) =>
@@ -143,7 +129,7 @@ export function RideForm({
                       })
                     }
                   />
-                </label>
+</Field>
               </div>
             ))}
             <LocationButton
@@ -184,20 +170,17 @@ export function RideForm({
                 </label>
               ))}
             </div>
-            <label>
-              Passengers
-              <input
+            <Field id={"ride-passengers"} label={<>Passengers</>} error={errors["passengers"]}>
+<input
                 name="passengers"
                 inputMode="numeric"
                 value={draft.passengers}
                 aria-invalid={!!errors["passengers"]}
                 onChange={(event) => update("passengers", event.target.value)}
               />
-            </label>
-            {fieldError("passengers")}
-            <label>
-              Pickup timing
-              <select
+</Field>
+            <Field id={"ride-field-4"} label={<>Pickup timing</>} error={undefined}>
+<select
                 value={draft.timing}
                 onChange={(event) =>
                   update("timing", event.target.value as RideDraft["timing"])
@@ -206,12 +189,11 @@ export function RideForm({
                 <option value="now">Now — subject to staff confirmation</option>
                 <option value="scheduled">Schedule a pickup</option>
               </select>
-            </label>
+</Field>
             {draft.timing === "scheduled" && (
               <>
-                <label>
-                  Pickup date and time (Malawi, UTC+02:00)
-                  <input
+                <Field id={"ride-scheduled"} label={<>Pickup date and time (Malawi, UTC+02:00)</>} error={errors["scheduled"]}>
+<input
                     name="scheduled"
                     type="datetime-local"
                     value={draft.scheduled}
@@ -220,8 +202,7 @@ export function RideForm({
                       update("scheduled", event.target.value)
                     }
                   />
-                </label>
-                {fieldError("scheduled")}
+</Field>
               </>
             )}
           </>
@@ -249,19 +230,17 @@ export function RideForm({
                 ? `${malawiTime(malawiToUtc(draft.scheduled))} Malawi time`
                 : "Immediate pickup requested"}
             </p>
-            <label>
-              Contact name
-              <input
+            <Field id={"ride-contactName"} label={<>Contact name</>} error={errors["contactName"]}>
+<input
                 name="contactName"
                 autoComplete="name"
                 maxLength={120}
                 value={draft.contactName}
                 onChange={(event) => update("contactName", event.target.value)}
               />
-            </label>
-            <label>
-              Contact phone
-              <input
+</Field>
+            <Field id={"ride-phone"} label={<>Contact phone</>} error={errors["phone"]}>
+<input
                 name="phone"
                 type="tel"
                 autoComplete="tel"
@@ -269,15 +248,14 @@ export function RideForm({
                 value={draft.phone}
                 onChange={(event) => update("phone", event.target.value)}
               />
-            </label>
-            <label>
-              Notes and passenger requirements (optional)
-              <textarea
+</Field>
+            <Field id={"ride-field-8"} label={<>Notes and passenger requirements (optional)</>} error={undefined}>
+<textarea
                 maxLength={2000}
                 value={draft.notes}
                 onChange={(event) => update("notes", event.target.value)}
               />
-            </label>
+</Field>
             <label className="ride-confirm">
               <input
                 type="checkbox"
@@ -297,9 +275,9 @@ export function RideForm({
         <RideSubmit draft={draft} editing={editing} saved={saved} />
       )}
       <div className="ride-form-actions">
-        <button
+        <Button
           type="button"
-          className="button secondary"
+          variant="secondary"
           disabled={!ready || step === 0}
           onClick={() => {
             setStep(step - 1);
@@ -307,11 +285,11 @@ export function RideForm({
           }}
         >
           Back
-        </button>
+        </Button>
         {step < 2 && (
-          <button type="submit" className="button" disabled={!ready}>
+          <Button type="submit" disabled={!ready}>
             Continue
-          </button>
+          </Button>
         )}
       </div>
       <noscript>

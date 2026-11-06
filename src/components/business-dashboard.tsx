@@ -23,7 +23,7 @@ export function BusinessDashboard() {
       ) : (
         <p>
           Saved applications and billing are not enabled on this deployment.{" "}
-          <a href="/list">Explore the local application flow</a>.
+          <a href="/list">Check listing availability</a>.
         </p>
       )}
     </section>
@@ -96,7 +96,7 @@ function OwnerApplications({ session }: { session: Session }) {
             Status: <strong>{application.status.replaceAll("_", " ")}</strong> ·
             Revision {application.version}
           </p>
-          <p>Application ID: {application.id}</p>
+
           {application.publication?.published && (
             <p>
               <a

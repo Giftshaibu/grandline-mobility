@@ -1,8 +1,16 @@
-import { WelcomeDialog } from "@grandline/ui";
+import Car01Icon from "@hugeicons/core-free-icons/Car01Icon";
+import SaleTag01Icon from "@hugeicons/core-free-icons/SaleTag01Icon";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+import { HugeiconsIcon } from "@hugeicons/react";
+import DashboardSpeed01Icon from "@hugeicons/core-free-icons/DashboardSpeed01Icon";
+import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
+import CheckmarkCircle02Icon from "@hugeicons/core-free-icons/CheckmarkCircle02Icon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
+import { WelcomeDialog, Button } from "@grandline/ui";
+import { AccountMenu } from "@grandline/ui/account";
 import {
   ClerkProvider,
   SignInButton,
-  UserButton,
   useAuth,
 } from "@clerk/tanstack-react-start";
 import type { ReactNode } from "react";
@@ -26,28 +34,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 function ConfiguredAccount() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn, has } = useAuth();
   if (!isLoaded) return <span className="muted">Loading account…</span>;
   return isSignedIn ? (
-    <UserButton appearance={{ elements: { avatarBox: "size-9", userButtonTrigger: "rounded-md p-1 focus-visible:outline-2 focus-visible:outline-[#ee4036]" } }}><UserButton.MenuItems><UserButton.Link href="/my-businesses" label="My Grandline" labelIcon={<span aria-hidden="true">◉</span>} /><UserButton.Link href="/my-businesses#notifications" label="Notifications" labelIcon={<span aria-hidden="true">✉</span>} /></UserButton.MenuItems></UserButton>
+    <AccountMenu links={[
+      { href: "/my-businesses", label: "My Grandline", icon: <HugeiconsIcon icon={DashboardSpeed01Icon} size={16} /> },
+      { href: "/my-businesses#notifications", label: "Notifications", icon: <HugeiconsIcon icon={Mail01Icon} size={16} /> },
+      { href: "/my-rides", label: "My rides", icon: <HugeiconsIcon icon={DashboardSpeed01Icon} size={16} /> },
+      ...(has?.({ role: "org:admin" }) ? [{ href: "/staff", label: "Staff dashboard", icon: <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} /> }] : []),
+    ]} />
   ) : (
     <SignInButton mode="modal">
-      <button className="button secondary">Sign in</button>
+      <Button variant="secondary"><HugeiconsIcon icon={UserIcon} size={18} />Sign in</Button>
     </SignInButton>
   );
 }
 export function AccountControl() {
-  return clerkKey ? <ConfiguredAccount /> : null;
+  return clerkKey ? <ConfiguredAccount /> : <Button variant="secondary" disabled title="Sign in is temporarily unavailable">Sign in</Button>;
 }
 
 const welcomeOptions = [
-  { label: 'Find transport', description: 'Browse hire, bikes and taxis', href: '/' },
-  { label: 'List transport', description: 'Start a transport listing', href: '/list' }
+  { icon: <HugeiconsIcon icon={Car01Icon} size={20} />, label: 'Find transport', description: 'Browse hire, bikes and taxis', href: '/' },
+  { icon: <HugeiconsIcon icon={SaleTag01Icon} size={20} />, label: 'List transport', description: 'Start a transport listing', href: '/list' }
 ];
 function ConfiguredWelcome() {
   const { isLoaded, isSignedIn } = useAuth();
-  return <WelcomeDialog product="mobility" title="What brings you to Grandline Mobility?" description="Find transport or list an offering for customers across Malawi." options={welcomeOptions} ready={isLoaded} signedIn={!!isSignedIn} />;
+  return <WelcomeDialog product="mobility" title="What brings you to Grandline Mobility?" description="Find transport or list an offering for customers across Malawi." options={welcomeOptions} browseIcon={<HugeiconsIcon icon={Search01Icon} size={20} />} ready={isLoaded} signedIn={!!isSignedIn} />;
 }
 export function ProductWelcome() {
-  return clerkKey ? <ConfiguredWelcome /> : <WelcomeDialog product="mobility" title="What brings you to Grandline Mobility?" description="Find transport or list an offering for customers across Malawi." options={welcomeOptions} />;
+  return clerkKey ? <ConfiguredWelcome /> : <WelcomeDialog product="mobility" title="What brings you to Grandline Mobility?" description="Find transport or list an offering for customers across Malawi." options={welcomeOptions} browseIcon={<HugeiconsIcon icon={Search01Icon} size={20} />} />;
 }

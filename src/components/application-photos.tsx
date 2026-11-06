@@ -46,7 +46,7 @@ export function ApplicationPhotos({
       <h3>Photos are optional</h3>
       <p className="muted">
         Up to eight JPEG, PNG or WebP images, each up to 12 MB. Files stay in
-        this browser tab and are never uploaded.
+        this browser tab until you save your draft and photos.
       </p>
       <label className="photo-input">
         Choose photos

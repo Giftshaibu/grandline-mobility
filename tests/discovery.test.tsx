@@ -7,7 +7,7 @@ import { entrySchema } from "../src/lib/contracts";
 import { hire, commercial, logistics } from "./fixtures";
 it("validates and renders hire pricing and passenger capacity", () => {
   render(<MobilityCard entry={entrySchema.parse(hire)} />);
-  expect(screen.getByText("MK50,000 / day")).toBeVisible();
+  expect(screen.getByText("MWK 50,000 / day")).toBeVisible();
   expect(screen.getByText("5 passengers")).toBeVisible();
   expect(screen.getByRole("link", { name: "View details" })).toHaveAttribute(
     "href",

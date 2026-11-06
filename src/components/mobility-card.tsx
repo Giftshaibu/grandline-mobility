@@ -1,25 +1,21 @@
-import { CatalogueCardFrame } from "@grandline/ui";
+import { CatalogueCardFrame, CatalogueImage, CatalogueCardBody, CatalogueTitle, CataloguePrice } from "@grandline/ui";
 import type { Entry } from "../lib/contracts";
 export function MobilityCard({ entry }: { entry: Entry }) {
   return (
     <CatalogueCardFrame className="entry-card">
-      {entry.images[0] && (
-        <img src={entry.images[0]} alt={entry.title} loading="lazy" />
-      )}
-      <div className="card-body">
-        {entry.reviewStatus === "pending" && <p className="muted"><strong>Pending review</strong></p>}
-        <h3>
+      <CatalogueImage src={entry.images[0]} alt={entry.title} />
+      <CatalogueCardBody>
+        {entry.reviewStatus === "pending" && <p className="grandline-public-review">Pending review</p>}
+        <CatalogueTitle>
           <a href={`/${entry.kind}/${encodeURIComponent(entry.slug)}`}>
             {entry.title}
           </a>
-        </h3>
-        <p>
+        </CatalogueTitle>
+        <p className="grandline-card-meta">
           {entry.location} · {entry.provider.name}
         </p>
         {entry.price && (
-          <p>
-            MK{entry.price.amount.toLocaleString("en-MW")} / {entry.price.unit}
-          </p>
+          <div className="grandline-card-price-row"><CataloguePrice>MWK {entry.price.amount.toLocaleString("en-MW")} / {entry.price.unit}</CataloguePrice></div>
         )}
         {(entry.kind === "hire" ||
           entry.kind === "bike-operator" ||
@@ -38,7 +34,7 @@ export function MobilityCard({ entry }: { entry: Entry }) {
         >
           View details
         </a>
-      </div>
+      </CatalogueCardBody>
     </CatalogueCardFrame>
   );
 }
