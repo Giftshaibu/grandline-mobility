@@ -1,3 +1,4 @@
+import { GrandlineContactDetails } from "@grandline/ui/contact";
 import { HeaderFrame, HeaderRow } from "@grandline/ui";
 import { EcosystemNavigation } from "./ecosystem-navigation";
 import { useRef } from "react";
@@ -238,6 +239,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <span className="footer-label">
               Grandline {productName} · Malawi
             </span>
+            <GrandlineContactDetails />
           </div>
           <nav aria-label={`${productName} footer`}>
             <h3>Explore {productName}</h3>

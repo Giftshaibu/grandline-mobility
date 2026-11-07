@@ -1,5 +1,7 @@
 # Current state — November 7, 2026
 
+Latest task: supplied company contacts are published through shared UI 0.7.3: +265 998 179 828, +265 997 539 393, +265 997 726 965, grandlineautomw@gmail.com and https://www.grandlineautomw.com. Each number has separate call and WhatsApp destinations. All three footers use the same contact section; Auto's /contact page uses it too and no longer claims details are missing. Source: Auto packages/ui/src/contact.tsx and styles.css, Auto footer/contact route, Services/Mobility shell.tsx, and identical vendor archives. No backend, seller contact, payment-proof handoff or account setting changes. Maintain these public company details in the shared source.
+
 Objective: shared image viewing and owner View/Edit/Delist controls across all three sites. Phase: implemented, pushed and deployed; read-only live verification complete.
 
 Completed: shared UI 0.7.2 galleries and an expanded viewer with 100–400% zoom, minimise/close, photo navigation and Escape/focus restoration. Owner My listings destinations, saved-record editing, confirmed/audited self-delisting and visibility status are implemented. Auto approved edits return to pending review; Services/Mobility preserve the public snapshot while editing. Delisting retains photos, application history and billing and does not restore staff-hidden listings.
