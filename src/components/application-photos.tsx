@@ -1,3 +1,4 @@
+import { ZoomableImage } from "@grandline/ui/images";
 import { useEffect, useState } from "react";
 export const photoMaximumBytes = 12 * 1024 * 1024;
 export function validateApplicationPhotos(files: File[]) {
@@ -92,7 +93,7 @@ export function PhotoGallery({
     <ul className="application-photos">
       {previews.map((photo, index) => (
         <li key={photo.url}>
-          <img
+          <ZoomableImage
             src={photo.url}
             alt={`Selected photo ${index + 1}: ${photo.name}`}
           />

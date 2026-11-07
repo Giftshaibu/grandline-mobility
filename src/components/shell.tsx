@@ -125,7 +125,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             </a>
             {liveMobility && (
               <a className="owner-account-link" href="/my-businesses">
-                My businesses
+                My listings
               </a>
             )}
             <AccountControl />
@@ -197,7 +197,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </div>
         <AccountControl />
         <nav aria-label="Mobile navigation">
-          {liveMobility && <a href="/my-businesses">My businesses</a>}
+          {liveMobility && <a href="/my-businesses">My listings</a>}
           <a href="/ride">Request a bike or taxi</a>
           <a href={listingAction.href}>
             <strong>{listingAction.label}</strong>
@@ -241,7 +241,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <nav aria-label={`${productName} footer`}>
             <h3>Explore {productName}</h3>
-            {liveMobility && <a href="/my-businesses">My businesses</a>}
+            {liveMobility && <a href="/my-businesses">My listings</a>}
             <a href={listingAction.href}>{listingAction.label} →</a>
             {marketplaceLinks.map((item) => (
               <a key={item.href} href={item.href}>

@@ -1,3 +1,4 @@
+import { ZoomableImage } from "@grandline/ui/images";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Button } from "@grandline/ui";
@@ -26,7 +27,7 @@ export function SavedApplicationPhoto({ product, applicationId, mediaId, filenam
     } finally { if (active.current) setBusy(false); }
   }
   return <div className="grandline-saved-photo">
-    {url && <img src={url} alt={`Saved photo: ${filename}`} referrerPolicy="no-referrer" onError={() => { setUrl(null); setError("The photo preview expired or could not load. Try again."); }} />}
+    {url && <ZoomableImage src={url} alt={`Saved photo: ${filename}`} referrerPolicy="no-referrer" onError={() => { setUrl(null); setError("The photo preview expired or could not load. Try again."); }} />}
     {!url && <Button variant="text" disabled={busy} onClick={() => void preview()}>{busy ? "Loading saved photo…" : `Preview saved photo: ${filename}`}</Button>}
     {error && <p role="alert">{error}</p>}
   </div>;

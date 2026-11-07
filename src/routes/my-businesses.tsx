@@ -3,7 +3,7 @@ import { BusinessDashboard } from "../components/business-dashboard";
 export const Route = createFileRoute("/my-businesses")({
   head: () => ({
     meta: [
-      { title: "My businesses | Grandline Mobility" },
+      { title: "My listings | Grandline Mobility" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),

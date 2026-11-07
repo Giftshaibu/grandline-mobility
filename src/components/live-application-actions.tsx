@@ -181,7 +181,9 @@ function ApplicationActions({
             </Button>
           )}
           {application &&
-            ["approved", "rejected"].includes(application.status) && (
+            ["approved", "rejected", "pending"].includes(
+              application.status,
+            ) && (
               <Button
                 type="button"
                 variant="secondary"

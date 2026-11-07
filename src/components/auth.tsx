@@ -38,7 +38,7 @@ function ConfiguredAccount() {
   if (!isLoaded) return <span className="muted">Loading account…</span>;
   return isSignedIn ? (
     <AccountMenu links={[
-      { href: "/my-businesses", label: "My Grandline", icon: <HugeiconsIcon icon={DashboardSpeed01Icon} size={16} /> },
+      { href: "/my-businesses", label: "My listings", icon: <HugeiconsIcon icon={DashboardSpeed01Icon} size={16} /> },
       { href: "/my-businesses#notifications", label: "Notifications", icon: <HugeiconsIcon icon={Mail01Icon} size={16} /> },
       { href: "/my-rides", label: "My rides", icon: <HugeiconsIcon icon={DashboardSpeed01Icon} size={16} /> },
       ...(has?.({ role: "org:admin" }) ? [{ href: "/staff", label: "Staff dashboard", icon: <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} /> }] : []),
