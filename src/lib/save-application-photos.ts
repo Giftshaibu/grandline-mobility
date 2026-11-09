@@ -6,11 +6,12 @@ export async function saveApplicationPhotos(
   files: File[],
   slots: Map<File, PhotoSlot>,
   token: string,
+  base = `/mobility/applications/${id}`,
 ) {
   for (const [file, slot] of slots) {
     if (!files.includes(file)) {
       await businessRequest(
-        `/mobility/applications/${id}/media/${slot.id}`,
+        `${base}/media/${slot.id}`,
         z.unknown(),
         token,
         "DELETE",
@@ -27,7 +28,7 @@ export async function saveApplicationPhotos(
       // was lost. Verify the stored object before trying another non-upsert PUT.
       try {
         await businessRequest(
-          `/mobility/applications/${id}/media/${slot.id}/complete`,
+          `${base}/media/${slot.id}/complete`,
           z.unknown(),
           token,
           "POST",
@@ -41,7 +42,7 @@ export async function saveApplicationPhotos(
       }
       url = (
         await businessRequest(
-          `/mobility/applications/${id}/media/${slot.id}/upload`,
+          `${base}/media/${slot.id}/upload`,
           z.object({ upload: z.object({ url: z.string().url() }) }),
           token,
           "POST",
@@ -50,7 +51,7 @@ export async function saveApplicationPhotos(
       ).upload.url;
     } else {
       const reserved = await businessRequest(
-        `/mobility/applications/${id}/media`,
+        `${base}/media`,
         uploadResponse,
         token,
         "POST",
@@ -73,7 +74,7 @@ export async function saveApplicationPhotos(
         "Photo upload failed. Save again to check and retry this reserved photo.",
       );
     await businessRequest(
-      `/mobility/applications/${id}/media/${slot.id}/complete`,
+      `${base}/media/${slot.id}/complete`,
       z.unknown(),
       token,
       "POST",

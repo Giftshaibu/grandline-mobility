@@ -1,5 +1,7 @@
 # Current state — November 7, 2026
 
+Admin and homepage release, November 9, 2026. Staff can edit listing details and photos, force approve eligible listings with an audited fee exemption, and revoke that exemption without changing payment dates. Explicit removals and suspensions remain enforced. Changes use the existing staff routes and field validation. Typecheck, lint, builds, 166 backend unit cases and 18 focused database scenarios pass. Production deployment proceeds backend first. Signed-in production verification requires a staff session.
+
 Latest task: supplied company contacts are published through shared UI 0.7.3: +265 998 179 828, +265 997 539 393, +265 997 726 965, grandlineautomw@gmail.com and https://www.grandlineautomw.com. Each number has separate call and WhatsApp destinations. All three footers and /contact pages use the same contact section. Auto no longer claims details are missing, and Services/Mobility contact-staff links now have a real destination. Source: Auto packages/ui/src/contact.tsx and styles.css, Auto footer/contact route, Services/Mobility shell.tsx and contact route, and identical vendor archives. No backend, seller contact, payment-proof handoff or account setting changes. Maintain these public company details in the shared source.
 
 Objective: shared image viewing and owner View/Edit/Delist controls across all three sites. Phase: implemented, pushed and deployed; read-only live verification complete.

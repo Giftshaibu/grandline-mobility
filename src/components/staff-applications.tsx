@@ -1,3 +1,4 @@
+import { StaffApplicationEditor } from "./staff-application-editor";
 import { NotificationOperations, EnquiryInbox } from "./notification-center";
 import { OperatorControls } from "./operator-controls";
 import { useEffect, useState } from "react";
@@ -38,6 +39,7 @@ export function StaffApplications() {
   );
 }
 function StaffQueue({ session }: { session: Session }) {
+  const [editing, setEditing] = useState(false);
   const [status, setStatus] = useState("pending");
   const [items, setItems] = useState<SavedApplication[]>([]);
   const [cursor, setCursor] = useState<string | null>(null);
@@ -76,6 +78,8 @@ function StaffQueue({ session }: { session: Session }) {
   }, [status]);
   async function act(action: string, decision?: string) {
     if (!selected || !reason.trim()) return;
+    if (action === "force-publish" && !window.confirm("Approve and publish this listing with a fee exemption and any verified photos?")) return;
+    if (action === "revoke-exemption" && !window.confirm("Remove the exemption and reapply the normal fee rules?")) return;
     setBusy(true);
     setMessage("");
     try {
@@ -102,7 +106,9 @@ function StaffQueue({ session }: { session: Session }) {
         ).application,
       );
       setMessage(
-        action === "publish"
+        action === "force-publish" ? "Listing approved and published with a fee exemption."
+        : action === "revoke-exemption" ? "Fee exemption removed."
+        : action === "publish"
           ? "Published. Review and payment status are tracked separately."
           : action === "unpublish"
             ? "Profile unpublished."
@@ -258,6 +264,12 @@ function StaffQueue({ session }: { session: Session }) {
                 )}
               </div>
             ))}
+            <button type="button" className="button secondary" onClick={() => setEditing((value) => !value)}>{editing ? "Close editor" : "Edit listing"}</button>
+            {editing && <StaffApplicationEditor key={`${selected.id}:${selected.version}`} application={selected} session={session} onSaved={(updated) => {
+              setSelected(updated);
+              setEditing(false);
+              setMessage("Listing changes saved.");
+            }} />}
             <fieldset disabled={!ready || busy}>
               <label>
                 Decision / publication reason
@@ -305,6 +317,10 @@ function StaffQueue({ session }: { session: Session }) {
                   Unpublish existing profile
                 </button>
               </div>
+              {selected.status !== "rejected" && selected.publication?.published !== false && !selected.publication?.feeExempt &&
+                <button type="button" className="button secondary" disabled={!reason.trim()} onClick={() => void act("force-publish")}>Force approve and publish</button>}
+              {selected.publication?.feeExempt &&
+                <button type="button" className="button secondary" disabled={!reason.trim()} onClick={() => void act("revoke-exemption")}>Revoke fee exemption</button>}
             </fieldset>
             <details>
               <summary>Application audit history</summary>
